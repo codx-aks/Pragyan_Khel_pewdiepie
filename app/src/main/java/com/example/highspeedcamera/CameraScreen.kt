@@ -28,31 +28,26 @@ import androidx.compose.ui.unit.sp
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  DESIGN TOKENS  — Cricket Night Stadium
-//  Reference: screenshot aesthetic (green oval, dark panel, yellow scoreboard)
 // ─────────────────────────────────────────────────────────────────────────────
 private object S {
-    // Sky / backgrounds
-    val SkyTop          = Color(0xFF050D14)   // near-black night
-    val SkyMid          = Color(0xFF0A1A2E)   // dark stadium blue
-    val FieldBright     = Color(0xFF2E7D32)   // bright field green
-    val FieldDeep       = Color(0xFF1B5E20)   // deep pitch green
-    val PitchTan        = Color(0xFFBCA98A)   // cricket pitch brown/tan
+    val SkyTop          = Color(0xFF050D14)
+    val SkyMid          = Color(0xFF0A1A2E)
+    val FieldBright     = Color(0xFF2E7D32)
+    val FieldDeep       = Color(0xFF1B5E20)
+    val PitchTan        = Color(0xFFBCA98A)
 
-    // Panel surfaces
-    val PanelBg         = Color(0xFF111111)   // near-black panel (like screenshot)
+    val PanelBg         = Color(0xFF111111)
     val PanelBorder     = Color(0xFF2A2A2A)
     val ItemBg          = Color(0xFF1A1A1A)
 
-    // Accent colours
-    val YellowLED       = Color(0xFFFFD600)   // scoreboard yellow (from screenshot)
+    val YellowLED       = Color(0xFFFFD600)
     val AmberWarm       = Color(0xFFFFC107)
     val CyanGlow        = Color(0xFF00E5FF)
     val RecRed          = Color(0xFFE53935)
     val RecRedPulse     = Color(0xFFFF5252)
-    val OrangeTeam      = Color(0xFFE64A19)   // team pill orange (from screenshot)
+    val OrangeTeam      = Color(0xFFE64A19)
     val ReplayGreen     = Color(0xFF00E676)
 
-    // Text
     val TextWhite       = Color(0xFFF5F5F5)
     val TextSub         = Color(0xFF90A4AE)
     val TextDim         = Color(0xFF4A5C6A)
@@ -113,11 +108,10 @@ fun CameraScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(S.SkyTop)      // night sky base
+                .background(S.SkyTop)
         ) {
 
             // ── STADIUM BACKGROUND PAINTING ──────────────────────────────
-            // Night sky gradient
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -129,35 +123,27 @@ fun CameraScreen(
                     )
             )
 
-            // Cricket oval / field (bottom half, circular)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(0.62f)
                     .align(Alignment.BottomCenter)
                     .drawBehind {
-                        // Main oval field
                         drawOval(
                             brush = Brush.radialGradient(
-                                colors = listOf(
-                                    S.FieldBright,
-                                    S.FieldDeep,
-                                    Color(0xFF0D1A0F)
-                                ),
+                                colors = listOf(S.FieldBright, S.FieldDeep, Color(0xFF0D1A0F)),
                                 center = Offset(size.width / 2f, size.height * 0.45f),
                                 radius = size.width * 0.65f
                             ),
                             topLeft = Offset(-size.width * 0.15f, 0f),
                             size = Size(size.width * 1.3f, size.height)
                         )
-                        // Boundary white circle line
                         drawCircle(
                             color = Color.White.copy(alpha = 0.2f),
                             radius = size.width * 0.48f,
                             center = Offset(size.width / 2f, size.height * 0.3f),
                             style = androidx.compose.ui.graphics.drawscope.Stroke(width = 2f)
                         )
-                        // Pitch rectangle in centre
                         val pitchW = size.width * 0.12f
                         val pitchH = size.height * 0.22f
                         val pitchX = size.width / 2f - pitchW / 2f
@@ -171,35 +157,24 @@ fun CameraScreen(
                     }
             )
 
-            // Floodlight poles — left and right (drawn, not composed)
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .drawBehind {
                         val w = size.width
                         val h = size.height
-                        drawFloodlightPole(
-                            this, Offset(w * 0.08f, h * 0.08f),
-                            beamAngle = 30f, beamAlpha = 0.07f
-                        )
-                        drawFloodlightPole(
-                            this, Offset(w * 0.92f, h * 0.08f),
-                            beamAngle = -30f, beamAlpha = 0.07f, mirrorX = true
-                        )
+                        drawFloodlightPole(this, Offset(w * 0.08f, h * 0.08f), beamAngle = 30f, beamAlpha = 0.07f)
+                        drawFloodlightPole(this, Offset(w * 0.92f, h * 0.08f), beamAngle = -30f, beamAlpha = 0.07f, mirrorX = true)
                     }
             )
 
-            // Vignette overlay around edges
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .drawBehind {
                         drawRect(
                             Brush.radialGradient(
-                                colors = listOf(
-                                    Color.Transparent,
-                                    Color.Black.copy(alpha = 0.55f)
-                                ),
+                                colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.55f)),
                                 center = Offset(size.width / 2f, size.height / 2f),
                                 radius = size.width * 0.75f
                             )
@@ -215,7 +190,7 @@ fun CameraScreen(
             ) {
 
                 // ═══════════════════════════════════════════════════════
-                //  VIEWFINDER — looks like stadium camera monitor
+                //  VIEWFINDER
                 // ═══════════════════════════════════════════════════════
                 Box(
                     modifier = Modifier
@@ -223,12 +198,10 @@ fun CameraScreen(
                         .weight(1f)
                         .padding(horizontal = 18.dp, vertical = 14.dp)
                 ) {
-                    // LED glowing border frame
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .drawBehind {
-                                // Outer cyan glow
                                 drawRoundRect(
                                     brush = Brush.linearGradient(
                                         listOf(
@@ -256,10 +229,8 @@ fun CameraScreen(
                             .clip(RoundedCornerShape(6.dp))
                             .background(Color(0x22050D14))
                     ) {
-                        // Corner marks
                         ViewfinderCornerMarks(color = S.CyanGlow)
 
-                        // Centre label
                         Column(
                             modifier = Modifier.align(Alignment.Center),
                             horizontalAlignment = Alignment.CenterHorizontally
@@ -281,7 +252,6 @@ fun CameraScreen(
                             )
                         }
 
-                        // LIVE badge — styled like screenshot scoreboard chip
                         LiveScoreboardBadge(
                             isRecording = isRecording,
                             recordingTime = recordingTime,
@@ -291,7 +261,6 @@ fun CameraScreen(
                                 .padding(10.dp)
                         )
 
-                        // FPS / Resolution chip — top right
                         Box(
                             modifier = Modifier
                                 .align(Alignment.TopEnd)
@@ -310,7 +279,6 @@ fun CameraScreen(
                             )
                         }
 
-                        // Status bottom
                         Text(
                             statusMessage.uppercase(),
                             color = S.TextSub.copy(alpha = 0.45f),
@@ -325,14 +293,17 @@ fun CameraScreen(
                 }
 
                 // ═══════════════════════════════════════════════════════
-                //  MAIN MENU PANEL  — matches screenshot dark panel style
+                //  MAIN MENU PANEL — bounded height with fixed bottom btns
                 // ═══════════════════════════════════════════════════════
-                Box(
+                // KEY CHANGE: Panel is now a Column with weight(1f) so it has
+                // a bounded height. Inside: scrollable settings + fixed buttons.
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(S.PanelBg, RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp))
+                        .weight(1f)          // ← bounded height, equal share with viewfinder
+                        .background(S.PanelBg)
                 ) {
-                    // Top accent line
+                    // Top accent line (always visible, not scrollable)
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -350,15 +321,18 @@ fun CameraScreen(
                             )
                     )
 
+                    // ── SCROLLABLE SETTINGS AREA ─────────────────────────
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 14.dp)
-                            .verticalScroll(rememberScrollState()),
+                            .weight(1f)      // ← takes remaining space, enables scroll
+                            .verticalScroll(rememberScrollState())
+                            .padding(horizontal = 16.dp)
+                            .padding(top = 14.dp, bottom = 10.dp),
                         verticalArrangement = Arrangement.spacedBy(0.dp)
                     ) {
 
-                        // Panel header — "MAIN MENU" style from screenshot
+                        // Panel header
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -384,7 +358,7 @@ fun CameraScreen(
                         Divider(color = S.PanelBorder, thickness = 0.5.dp)
                         Spacer(Modifier.height(10.dp))
 
-                        // Camera info (collapsible scoreboard item style)
+                        // Camera info
                         ScoreboardMenuItem(
                             number = "00",
                             title = "CAMERA INFO",
@@ -393,7 +367,7 @@ fun CameraScreen(
 
                         Spacer(Modifier.height(8.dp))
 
-                        // FPS selector item
+                        // FPS selector
                         ScoreboardMenuDropdown(
                             number = "01",
                             title = "FRAME RATE",
@@ -406,7 +380,7 @@ fun CameraScreen(
 
                         Spacer(Modifier.height(8.dp))
 
-                        // Resolution selector item
+                        // Resolution selector
                         ScoreboardMenuDropdown(
                             number = "02",
                             title = "RESOLUTION",
@@ -419,7 +393,7 @@ fun CameraScreen(
 
                         Spacer(Modifier.height(8.dp))
 
-                        // Manual Exposure toggle item
+                        // Manual Exposure toggle
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -431,7 +405,6 @@ fun CameraScreen(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                // Number box
                                 Box(
                                     modifier = Modifier
                                         .size(38.dp)
@@ -530,7 +503,7 @@ fun CameraScreen(
 
                                     Spacer(Modifier.height(12.dp))
 
-                                    // Noise reduction inline dropdown
+                                    // Noise reduction
                                     Text(
                                         "NOISE REDUCTION",
                                         color = S.CyanGlow.copy(alpha = 0.7f),
@@ -552,11 +525,37 @@ fun CameraScreen(
                             }
                         }
 
-                        Spacer(Modifier.height(14.dp))
+                        Spacer(Modifier.height(6.dp))
+                    } // end scrollable Column
 
-                        // Record + Replay buttons — team pill style from screenshot
+                    // ── FIXED BOTTOM — RECORD / REPLAY ───────────────────
+                    // KEY CHANGE: These are OUTSIDE the scroll, always visible.
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(S.PanelBg)  // same panel bg so it blends
+                    ) {
+                        // Subtle separator line above buttons
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(1.dp)
+                                .background(
+                                    Brush.horizontalGradient(
+                                        listOf(
+                                            Color.Transparent,
+                                            S.PanelBorder,
+                                            S.PanelBorder,
+                                            Color.Transparent
+                                        )
+                                    )
+                                )
+                        )
+
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 10.dp),
                             horizontalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             CricketBallRecordButton(
@@ -591,8 +590,6 @@ fun CameraScreen(
                             }
                         }
 
-                        Spacer(Modifier.height(6.dp))
-
                         Text(
                             "SELECT OPTION",
                             color = S.TextDim,
@@ -600,19 +597,20 @@ fun CameraScreen(
                             fontSize = 9.sp,
                             letterSpacing = 3.sp,
                             textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 8.dp)
                         )
+                    } // end fixed bottom Column
 
-                        Spacer(Modifier.height(8.dp))
-                    }
-                }
+                } // end panel Column
             }
         }
     }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  COMPONENT — Viewfinder corner marks (draw only, no scope issues)
+//  COMPONENT — Viewfinder corner marks
 // ─────────────────────────────────────────────────────────────────────────────
 @Composable
 private fun ViewfinderCornerMarks(color: Color) {
@@ -639,7 +637,7 @@ private fun ViewfinderCornerMarks(color: Color) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  COMPONENT — LIVE scoreboard badge (chip style from screenshot)
+//  COMPONENT — LIVE scoreboard badge
 // ─────────────────────────────────────────────────────────────────────────────
 @Composable
 private fun LiveScoreboardBadge(
@@ -696,7 +694,7 @@ private fun LiveScoreboardBadge(
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  COMPONENT — Scoreboard menu item (numbered row, like screenshot 01 / 02 / 03)
+//  COMPONENT — Scoreboard menu item
 // ─────────────────────────────────────────────────────────────────────────────
 @Composable
 private fun ScoreboardMenuItem(number: String, title: String, subtitle: String) {
@@ -708,7 +706,6 @@ private fun ScoreboardMenuItem(number: String, title: String, subtitle: String) 
             .padding(horizontal = 12.dp, vertical = 10.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            // Yellow bordered number box (from screenshot)
             Box(
                 modifier = Modifier
                     .size(38.dp)
@@ -745,7 +742,7 @@ private fun ScoreboardMenuItem(number: String, title: String, subtitle: String) 
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  COMPONENT — Scoreboard menu item with integrated dropdown
+//  COMPONENT — Scoreboard menu item with dropdown
 // ─────────────────────────────────────────────────────────────────────────────
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -801,7 +798,6 @@ private fun ScoreboardMenuDropdown(
                     fontSize = 10.sp
                 )
             }
-            // Inline value + arrow
             androidx.compose.material3.ExposedDropdownMenuBox(
                 expanded = expanded,
                 onExpandedChange = { expanded = !expanded }
@@ -879,7 +875,6 @@ private fun CricketBallRecordButton(
     )
 
     Box(modifier = modifier.height(52.dp), contentAlignment = Alignment.Center) {
-        // Pulse ring (only visible when recording)
         if (isRecording) {
             Box(
                 modifier = Modifier
@@ -913,7 +908,7 @@ private fun CricketBallRecordButton(
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  COMPONENT — Stat readout row (label left, big value right)
+//  COMPONENT — Stat readout row
 // ─────────────────────────────────────────────────────────────────────────────
 @Composable
 private fun StatReadout(label: String, value: String, hint: String) {
@@ -949,7 +944,7 @@ private fun StatReadout(label: String, value: String, hint: String) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  COMPONENT — Simple LED dropdown (no label wrapper)
+//  COMPONENT — Simple LED dropdown
 // ─────────────────────────────────────────────────────────────────────────────
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -1021,7 +1016,7 @@ fun DropdownMenuBox(
 ) = LedDropdown(items, selectedItem, onItemSelected, modifier, enabledItems)
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  UTILITY — floodlight pole drawing on DrawScope
+//  UTILITY — floodlight pole drawing
 // ─────────────────────────────────────────────────────────────────────────────
 private fun drawFloodlightPole(
     scope: androidx.compose.ui.graphics.drawscope.DrawScope,
@@ -1030,7 +1025,6 @@ private fun drawFloodlightPole(
     beamAlpha: Float,
     mirrorX: Boolean = false
 ) {
-    // Pole
     val poleBottom = Offset(topCenter.x, scope.size.height * 0.55f)
     scope.drawLine(
         color = Color(0xFF607D8B),
@@ -1038,12 +1032,7 @@ private fun drawFloodlightPole(
         end = poleBottom,
         strokeWidth = 6f
     )
-    // Light globe
-    scope.drawCircle(
-        color = Color(0xFFFFFFCC),
-        radius = 14f,
-        center = topCenter
-    )
+    scope.drawCircle(color = Color(0xFFFFFFCC), radius = 14f, center = topCenter)
     scope.drawCircle(
         brush = Brush.radialGradient(
             listOf(Color.White.copy(alpha = 0.6f), Color.Transparent),
@@ -1053,7 +1042,6 @@ private fun drawFloodlightPole(
         radius = 30f,
         center = topCenter
     )
-    // Beam cone
     val spread = 200f
     val beamLength = scope.size.height * 0.45f
     val rad = Math.toRadians(beamAngle.toDouble())
@@ -1063,10 +1051,7 @@ private fun drawFloodlightPole(
     )
     scope.drawLine(
         brush = Brush.linearGradient(
-            listOf(
-                Color.White.copy(alpha = beamAlpha),
-                Color.Transparent
-            ),
+            listOf(Color.White.copy(alpha = beamAlpha), Color.Transparent),
             start = topCenter,
             end = beamTip
         ),

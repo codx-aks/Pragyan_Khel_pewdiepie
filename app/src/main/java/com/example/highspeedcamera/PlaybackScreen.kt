@@ -428,21 +428,6 @@ fun PlaybackScreen(
                                 letterSpacing = 3.sp
                             )
                         }
-
-                        BroadcastButton(
-                            label = "GALLERY",
-                            onClick = {
-                                videoPath?.let { path ->
-                                    val intent = Intent(Intent.ACTION_VIEW).apply {
-                                        setDataAndType(Uri.fromFile(java.io.File(path)), "video/mp4")
-                                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                    }
-                                    try { context.startActivity(intent) } catch (_: Exception) {}
-                                }
-                            },
-                            color = Pb.YellowLED.copy(alpha = 0.7f),
-                            modifier = Modifier.weight(0.7f)
-                        )
                     }
                 }
             }
