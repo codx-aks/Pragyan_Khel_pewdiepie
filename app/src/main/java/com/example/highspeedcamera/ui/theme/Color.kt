@@ -59,3 +59,18 @@ val md_theme_dark_inverseSurface = Color(0xFFE1E3E3)
 val md_theme_dark_inversePrimary = Color(0xFF006874)
 
 val seed = Color(0xFF00E5FF)
+
+// Cricket Stadium Theme Colors
+val StadiumGreen = Color(0xFF2E7D32)
+val StadiumDarkGreen = Color(0xFF1B5E20)
+val StadiumLightGreen = Color(0xFF388E3C)
+val StadiumFieldGreen = Color(0xFF4CAF50)
+val StadiumBoundaryWhite = Color(0xFFFFFFFF)
+val StadiumPitchBrown = Color(0xFFD4A574)
+val StadiumSeatingBlue = Color(0xFF1565C0)
+val StadiumFloodlightYellow = Color(0xFFFFEB3B)
+val StadiumScoreboardBlack = Color(0xFF0A0A0A)
+val StadiumScoreboardYellow = Color(0xFFFFFF00)
+val StadiumScoreboardRed = Color(0xFFFF3333)
+val StadiumSkyBlue = Color(0xFF81D4FA)
+val StadiumNightSky = Color(0xFF0D1B2A)

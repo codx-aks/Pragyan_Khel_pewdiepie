@@ -66,8 +66,7 @@ fun MainMenuScreen(
                     .size(140.dp)
                     .padding(bottom = 24.dp),
                 shape = CircleShape,
-                color = Color.White,
-                shadowElevation = 12.dp
+                color = Color.Transparent,
             ) {
                 Box(
                     contentAlignment = Alignment.Center,
