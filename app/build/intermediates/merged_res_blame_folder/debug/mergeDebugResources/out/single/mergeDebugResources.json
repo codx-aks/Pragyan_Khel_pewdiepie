@@ -1,22 +1,22 @@
 [
     {
-        "merged": "com.example.highspeedcamera.app-debug-52:/drawable_spinner_bg.xml.flat",
-        "source": "com.example.highspeedcamera.app-main-54:/drawable/spinner_bg.xml"
+        "merged": "com.example.highspeedcamera.app-debug-57:/drawable_spinner_bg.xml.flat",
+        "source": "com.example.highspeedcamera.app-main-59:/drawable/spinner_bg.xml"
     },
     {
-        "merged": "com.example.highspeedcamera.app-debug-52:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "com.example.highspeedcamera.app-main-54:/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "com.example.highspeedcamera.app-debug-57:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.highspeedcamera.app-main-59:/mipmap-anydpi-v26/ic_launcher.xml"
     },
     {
-        "merged": "com.example.highspeedcamera.app-debug-52:/drawable_red_dot.xml.flat",
-        "source": "com.example.highspeedcamera.app-main-54:/drawable/red_dot.xml"
+        "merged": "com.example.highspeedcamera.app-debug-57:/xml_file_paths.xml.flat",
+        "source": "com.example.highspeedcamera.app-main-59:/xml/file_paths.xml"
     },
     {
-        "merged": "com.example.highspeedcamera.app-debug-52:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "com.example.highspeedcamera.app-main-54:/mipmap-anydpi-v26/ic_launcher_round.xml"
+        "merged": "com.example.highspeedcamera.app-debug-57:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.highspeedcamera.app-main-59:/mipmap-anydpi-v26/ic_launcher_round.xml"
     },
     {
-        "merged": "com.example.highspeedcamera.app-debug-52:/xml_file_paths.xml.flat",
-        "source": "com.example.highspeedcamera.app-main-54:/xml/file_paths.xml"
+        "merged": "com.example.highspeedcamera.app-debug-57:/drawable_red_dot.xml.flat",
+        "source": "com.example.highspeedcamera.app-main-59:/drawable/red_dot.xml"
     }
 ]

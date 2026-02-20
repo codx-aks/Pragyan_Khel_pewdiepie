@@ -40,12 +40,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".PlaybackActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:label="Playback"
-            android:theme="@style/Theme.HighSpeedCamera.NoActionBar" />
+
 
         <provider
             android:name="androidx.core.content.FileProvider"

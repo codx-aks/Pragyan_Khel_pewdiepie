@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.highspeedcamera.app-mergeDebugResources-50:/values-xlarge-v4/values-xlarge-v4.xml",
+            "outputFile": "com.example.highspeedcamera.app-mergeDebugResources-55:/values-xlarge-v4/values-xlarge-v4.xml",
             "map": [
                 {
-                    "source": "/home/allen/.gradle/caches/9.0.0/transforms/d3e9dd02ca67f1b2d8dded401d75c62c/transformed/appcompat-1.7.0/res/values-xlarge-v4/values-xlarge-v4.xml",
+                    "source": "/home/allen/.gradle/caches/9.0.0/transforms/e6236c02c7c38ebdf1618cfcef84eede/transformed/appcompat-1.7.0/res/values-xlarge-v4/values-xlarge-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7",
                         "startColumns": "4,4,4,4,4,4",

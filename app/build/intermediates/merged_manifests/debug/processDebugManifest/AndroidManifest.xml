@@ -59,12 +59,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.highspeedcamera.PlaybackActivity"
-            android:exported="false"
-            android:label="Playback"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.HighSpeedCamera.NoActionBar" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
