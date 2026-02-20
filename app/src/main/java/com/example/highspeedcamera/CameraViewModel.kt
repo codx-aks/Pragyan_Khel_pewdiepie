@@ -2,12 +2,16 @@ package com.example.highspeedcamera
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.ContentValues
 import android.content.Context
 import android.hardware.camera2.*
 import android.media.MediaRecorder
+import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.os.Handler
 import android.os.HandlerThread
+import android.provider.MediaStore
 import android.util.Log
 import android.util.Range
 import android.util.Size
@@ -23,6 +27,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.io.File
 import java.io.FileWriter
+import java.io.OutputStreamWriter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -71,6 +76,10 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _lastMetaPath = MutableStateFlow<String?>(null)
     val lastMetaPath = _lastMetaPath.asStateFlow()
+
+    // Video output URI (used for MediaStore on API 29+)
+    private var lastVideoUri: Uri? = null
+    private var lastVideoFd: java.io.FileDescriptor? = null
 
     // Camera Capabilities
     private var supportedHighSpeedSizes = mutableListOf<Size>()
@@ -276,7 +285,12 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
         val outputFile = createOutputFile()
         _lastVideoPath.value = outputFile.absolutePath
 
-        mediaRecorder = MediaRecorder(getApplication()).apply {
+        mediaRecorder = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            MediaRecorder(getApplication())
+        } else {
+            @Suppress("DEPRECATION")
+            MediaRecorder()
+        }).apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setVideoSource(MediaRecorder.VideoSource.SURFACE)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
@@ -287,7 +301,13 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
             setVideoEncodingBitRate(calculateBitrate(size, fps))
             setAudioEncodingBitRate(128_000)
             setAudioSamplingRate(44100)
-            setOutputFile(_lastVideoPath.value)
+
+            // Use file descriptor for MediaStore (API 29+), otherwise use file path
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && lastVideoFd != null) {
+                setOutputFile(lastVideoFd)
+            } else {
+                setOutputFile(_lastVideoPath.value)
+            }
 
             try {
                 val characteristics = cameraManager.getCameraCharacteristics(cameraId)
@@ -330,10 +350,22 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
             Log.e(TAG, "Error stopping MediaRecorder", e)
         }
 
+        // Finalize MediaStore entry on API 29+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && lastVideoUri != null) {
+            try {
+                val contentValues = ContentValues().apply {
+                    put(MediaStore.MediaColumns.IS_PENDING, 0)
+                }
+                getApplication<Application>().contentResolver.update(lastVideoUri!!, contentValues, null, null)
+            } catch (e: Exception) {
+                Log.e(TAG, "Error finalizing MediaStore entry", e)
+            }
+        }
+
         saveMetadata()
         openCamera()
 
-        _statusMessage.value = "Recording saved ✓"
+        _statusMessage.value = "Recording saved to Downloads/HighSpeedCam ✓"
     }
 
     private fun onRecordingStarted(fps: Int, size: Size) {
@@ -351,8 +383,6 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
 
     private fun saveMetadata() {
         val videoPath = _lastVideoPath.value ?: return
-        val metaFile = File(videoPath.replace(".mp4", "_meta.json"))
-        _lastMetaPath.value = metaFile.absolutePath
 
         val denominator = (1_000_000_000.0 / _selectedShutterNs.value).toInt()
         val timestamp = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
@@ -373,8 +403,34 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
             put("duration_seconds", (System.currentTimeMillis() - recordingStartTime) / 1000.0)
         }
 
+        val metaFileName = File(videoPath).name.replace(".mp4", "_meta.json")
+
         try {
-            FileWriter(metaFile).use { it.write(json.toString(2)) }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                // Use MediaStore to save metadata JSON in Downloads/HighSpeedCam
+                val contentValues = ContentValues().apply {
+                    put(MediaStore.MediaColumns.DISPLAY_NAME, metaFileName)
+                    put(MediaStore.MediaColumns.MIME_TYPE, "application/json")
+                    put(MediaStore.MediaColumns.RELATIVE_PATH, "${Environment.DIRECTORY_DOWNLOADS}/HighSpeedCam")
+                }
+                val resolver = getApplication<Application>().contentResolver
+                val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+                if (uri != null) {
+                    resolver.openOutputStream(uri)?.use { outputStream ->
+                        OutputStreamWriter(outputStream).use { writer ->
+                            writer.write(json.toString(2))
+                        }
+                    }
+                    // Update the meta path to the logical path
+                    val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                    _lastMetaPath.value = File(File(downloadsDir, "HighSpeedCam"), metaFileName).absolutePath
+                }
+            } else {
+                // Direct file access for API < 29
+                val metaFile = File(File(videoPath).parent, metaFileName)
+                _lastMetaPath.value = metaFile.absolutePath
+                FileWriter(metaFile).use { it.write(json.toString(2)) }
+            }
         } catch (e: Exception) {
             Log.e(TAG, "Failed to save metadata", e)
         }
@@ -406,9 +462,41 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
 
     private fun createOutputFile(): File {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-        val dir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "HighSpeedCam")
-        if (!dir.exists()) dir.mkdirs()
-        return File(dir, "HSC_${timeStamp}_${_selectedFps.value}fps.mp4")
+        val fileName = "HSC_${timeStamp}_${_selectedFps.value}fps.mp4"
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // API 29+: Use MediaStore to save into Downloads/HighSpeedCam
+            val contentValues = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+                put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4")
+                put(MediaStore.MediaColumns.RELATIVE_PATH, "${Environment.DIRECTORY_DOWNLOADS}/HighSpeedCam")
+            }
+            val resolver = getApplication<Application>().contentResolver
+            val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+            lastVideoUri = uri
+
+            // MediaRecorder needs a file path or FileDescriptor, so we get the FD from the URI
+            if (uri != null) {
+                val pfd = resolver.openFileDescriptor(uri, "rw")
+                if (pfd != null) {
+                    lastVideoFd = pfd.fileDescriptor
+                    // We still need a File object for the path reference
+                    // Store the logical path for display/metadata
+                    val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                    val dir = File(downloadsDir, "HighSpeedCam")
+                    return File(dir, fileName) // logical path reference
+                }
+            }
+            // Fallback if MediaStore fails
+            val dir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "HighSpeedCam")
+            if (!dir.exists()) dir.mkdirs()
+            return File(dir, fileName)
+        } else {
+            // API < 29: Direct file access in Downloads/HighSpeedCam
+            val dir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "HighSpeedCam")
+            if (!dir.exists()) dir.mkdirs()
+            return File(dir, fileName)
+        }
     }
 
     private fun startBackgroundThread() {

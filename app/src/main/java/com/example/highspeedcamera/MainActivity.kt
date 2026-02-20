@@ -2,6 +2,7 @@ package com.example.highspeedcamera
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -25,10 +26,25 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         private const val REQUEST_PERMISSIONS = 100
-        private val REQUIRED_PERMISSIONS = arrayOf(
-            Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO
-        )
+        private val REQUIRED_PERMISSIONS: Array<String>
+            get() {
+                val perms = mutableListOf(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.RECORD_AUDIO
+                )
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                    // API 28 and below: need WRITE_EXTERNAL_STORAGE for Downloads access
+                    perms.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    // API 33+: need READ_MEDIA_VIDEO to read back the saved videos
+                    perms.add(Manifest.permission.READ_MEDIA_VIDEO)
+                } else {
+                    // API 29-32: need READ_EXTERNAL_STORAGE to read back files
+                    perms.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
+                return perms.toTypedArray()
+            }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
