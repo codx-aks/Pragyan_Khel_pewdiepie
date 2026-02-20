@@ -72,6 +72,9 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     private val _permissionDenied = MutableStateFlow(false)
     val permissionDenied = _permissionDenied.asStateFlow()
 
+    private val _unsupportedFeatureMessage = MutableStateFlow<String?>(null)
+    val unsupportedFeatureMessage = _unsupportedFeatureMessage.asStateFlow()
+
     private val _cameraInfo = MutableStateFlow("Detecting camera...")
     val cameraInfo = _cameraInfo.asStateFlow()
 
@@ -92,16 +95,19 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     private var supportedHighSpeedSizes = mutableListOf<Size>()
     private var supportedFpsRanges = mutableListOf<Range<Int>>()
     private var cameraId = "0"
-    private var minIso = 100
-    private var maxIso = 6400
     private var recordingStartTime = 0L
 
-    val HIGH_SPEED_SIZES = listOf(
-        Size(1920, 1080),
-        Size(1280, 720),
-        Size(640, 480)
-    )
-    val FPS_OPTIONS = listOf(240, 120, 60)
+    private val _availableFpsOptions = MutableStateFlow<List<Int>>(emptyList())
+    val availableFpsOptions = _availableFpsOptions.asStateFlow()
+
+    private val _availableSizeOptions = MutableStateFlow<List<Size>>(emptyList())
+    val availableSizeOptions = _availableSizeOptions.asStateFlow()
+
+    private val _isoRange = MutableStateFlow<Range<Int>>(Range(100, 6400))
+    val isoRange = _isoRange.asStateFlow()
+
+    private val _shutterRangeNs = MutableStateFlow<Range<Long>>(Range(250_000L, 33_333_333L))
+    val shutterRangeNs = _shutterRangeNs.asStateFlow()
 
     // endregion
 
@@ -119,28 +125,77 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
 
             if (capabilities.contains(CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_CONSTRAINED_HIGH_SPEED_VIDEO)) {
                 cameraId = id
-                val map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) ?: continue
-
-                supportedHighSpeedSizes.clear()
-                supportedFpsRanges.clear()
-                map.highSpeedVideoSizes?.let { sizes -> supportedHighSpeedSizes.addAll(sizes.toList()) }
-                map.highSpeedVideoFpsRanges?.let { ranges -> supportedFpsRanges.addAll(ranges.toList()) }
-
-                characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE)?.let { range ->
-                    minIso = range.lower
-                    maxIso = range.upper
-                }
-
-                updateCapabilityInfo()
                 foundHs = true
                 Log.d(TAG, "High-speed camera found: $id")
                 break
             }
         }
 
-        if (!foundHs) {
-            _cameraInfo.value = "⚠ No high-speed camera found.\nDevice may not support 120/240 FPS."
+        val characteristics = try {
+            cameraManager.getCameraCharacteristics(cameraId)
+        } catch (e: Exception) {
+            _unsupportedFeatureMessage.value = "Failed to access camera: ${e.message}"
+            openCamera()
+            return
         }
+        
+        val map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+
+        supportedHighSpeedSizes.clear()
+        supportedFpsRanges.clear()
+        
+        if (foundHs && map != null) {
+            map.highSpeedVideoSizes?.let { sizes -> supportedHighSpeedSizes.addAll(sizes.toList()) }
+            map.highSpeedVideoFpsRanges?.let { ranges -> supportedFpsRanges.addAll(ranges.toList()) }
+            
+            val fpsList = supportedFpsRanges.map { it.upper }.distinct().sortedDescending()
+            _availableFpsOptions.value = if (fpsList.isNotEmpty()) fpsList else listOf(60)
+            
+            val sizeList = supportedHighSpeedSizes.distinct().sortedByDescending { it.width * it.height }
+            _availableSizeOptions.value = if (sizeList.isNotEmpty()) sizeList else listOf(Size(1920, 1080))
+            
+            updateCapabilityInfo()
+        } else {
+            _cameraInfo.value = "⚠ No high-speed camera found.\nDevice may not support 120/240 FPS."
+            _unsupportedFeatureMessage.value = "High-speed features not supported on this device. Using standard limits."
+            
+            map?.getOutputSizes(MediaRecorder::class.java)?.let { sizes ->
+                _availableSizeOptions.value = sizes.toList().sortedByDescending { it.width * it.height }.take(5)
+            }
+            if (_availableSizeOptions.value.isEmpty()) {
+                 _availableSizeOptions.value = listOf(Size(1920, 1080))
+            }
+
+            val fpsRanges = characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_TARGET_FPS_RANGES)
+            if (fpsRanges != null) {
+                val fpsList = fpsRanges.map { it.upper }.distinct().sortedDescending()
+                _availableFpsOptions.value = if (fpsList.isNotEmpty()) fpsList else listOf(30)
+            } else {
+                _availableFpsOptions.value = listOf(30)
+            }
+        }
+
+        characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE)?.let { range ->
+            _isoRange.value = range
+            if (_selectedIso.value !in range.lower..range.upper) {
+                _selectedIso.value = range.lower
+            }
+        }
+
+        characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE)?.let { range ->
+            _shutterRangeNs.value = range
+            if (_selectedShutterNs.value !in range.lower..range.upper) {
+                _selectedShutterNs.value = range.upper.coerceAtMost(1_000_000_000L / 30) // Fallback to 30fps shutter approx
+            }
+        }
+
+        if (_selectedFps.value !in _availableFpsOptions.value) {
+            _selectedFps.value = _availableFpsOptions.value.firstOrNull() ?: 30
+        }
+        if (_selectedSize.value !in _availableSizeOptions.value) {
+            _selectedSize.value = _availableSizeOptions.value.firstOrNull() ?: Size(1920, 1080)
+        }
+
         openCamera()
     }
 
@@ -196,6 +251,10 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     
     fun onPermissionDeniedDismissed() {
         _permissionDenied.value = false
+    }
+
+    fun dismissUnsupportedMessage() {
+        _unsupportedFeatureMessage.value = null
     }
 
     fun toggleRecording() {

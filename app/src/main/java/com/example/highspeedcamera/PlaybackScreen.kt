@@ -43,12 +43,15 @@ fun PlaybackScreen(
     val currentPosition by viewModel.currentPosition.collectAsState()
     val duration by viewModel.duration.collectAsState()
 
-    Column(
+    Surface(
+        color = MaterialTheme.colorScheme.background,
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF0D0D0F))
             .padding(innerPadding)
     ) {
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
         // Top Bar
         Row(
             modifier = Modifier
@@ -58,15 +61,18 @@ fun PlaybackScreen(
         ) {
             Button(
                 onClick = onBackClick,
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1A1A1F))
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             ) {
-                Text("← Back", color = Color(0xFFCCCCCC))
+                Text("← Back", style = MaterialTheme.typography.labelLarge)
             }
 
             Text(
                 text = videoName,
-                color = Color(0xFFAAAAAA),
-                fontSize = 11.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.labelSmall,
                 maxLines = 1,
                 modifier = Modifier
                     .weight(1f)
@@ -89,9 +95,12 @@ fun PlaybackScreen(
                         context.startActivity(Intent.createChooser(shareIntent, "Share Video"))
                     }
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF555555))
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary
+                )
             ) {
-                Text("Share", color = Color.White)
+                Text("Share", style = MaterialTheme.typography.labelLarge)
             }
         }
 
@@ -128,8 +137,8 @@ fun PlaybackScreen(
                 .fillMaxWidth()
                 .weight(1f)
                 .padding(16.dp),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFF1A1A1F)),
-            shape = RoundedCornerShape(8.dp)
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            shape = RoundedCornerShape(12.dp)
         ) {
             Column(
                 modifier = Modifier
@@ -139,9 +148,10 @@ fun PlaybackScreen(
             ) {
                 Text(
                     "RECORDING METADATA",
-                    color = Color(0xFF00E5FF),
+                    color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 12.sp,
+                    style = MaterialTheme.typography.labelMedium,
+                    letterSpacing = 1.sp,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 
@@ -167,7 +177,7 @@ fun PlaybackScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xFF111116))
+                .background(MaterialTheme.colorScheme.surface)
                 .padding(16.dp)
         ) {
             Row(
@@ -176,9 +186,9 @@ fun PlaybackScreen(
             ) {
                 Text(
                     formatTime(currentPosition),
-                    color = Color(0xFFAAAAAA),
-                    fontFamily = FontFamily.Monospace,
-                    fontSize = 13.sp
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.labelMedium,
+                    fontFamily = FontFamily.Monospace
                 )
                 
                 Slider(
@@ -191,9 +201,9 @@ fun PlaybackScreen(
 
                 Text(
                     formatTime(duration),
-                    color = Color(0xFFAAAAAA),
-                    fontFamily = FontFamily.Monospace,
-                    fontSize = 13.sp
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.labelMedium,
+                    fontFamily = FontFamily.Monospace
                 )
             }
 
@@ -201,10 +211,9 @@ fun PlaybackScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                Button(
+                FilledTonalButton(
                     onClick = { viewModel.restart() },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF222228)),
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(12.dp)
                 ) {
                     Text("⏮", fontSize = 18.sp)
                 }
@@ -213,12 +222,16 @@ fun PlaybackScreen(
 
                 Button(
                     onClick = { viewModel.togglePlayPause() },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3)),
-                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                    shape = RoundedCornerShape(12.dp),
                     modifier = Modifier.weight(1f),
                     enabled = !isLoading
                 ) {
-                    Text(if (isPlaying) "⏸  Pause" else "▶  Play", color = Color.White)
+                    Text(
+                        if (isPlaying) "⏸  Pause" else "▶  Play", 
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
 
                 Spacer(modifier = Modifier.width(16.dp))
@@ -237,21 +250,25 @@ fun PlaybackScreen(
                             }
                         }
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF222228)),
-                    shape = RoundedCornerShape(8.dp)
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
+                    shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text("Gallery", color = Color(0xFFCCCCCC))
+                    Text("Gallery", style = MaterialTheme.typography.labelLarge)
                 }
             }
         }
+    }
     }
 }
 
 @Composable
 fun MetaItem(label: String, value: String) {
     Column(modifier = Modifier.padding(bottom = 12.dp)) {
-        Text(label, color = Color(0xFF666666), fontSize = 10.sp)
-        Text(value, color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+        Text(label, color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.labelSmall)
+        Text(value, color = MaterialTheme.colorScheme.onSurface, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
     }
 }
 

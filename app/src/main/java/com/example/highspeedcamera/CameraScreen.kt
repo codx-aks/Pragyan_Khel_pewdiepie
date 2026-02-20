@@ -30,6 +30,7 @@ fun CameraScreen(
     val statusMessage by viewModel.statusMessage.collectAsState()
     val cameraInfo by viewModel.cameraInfo.collectAsState()
     val permissionDenied by viewModel.permissionDenied.collectAsState()
+    val unsupportedFeatureMessage by viewModel.unsupportedFeatureMessage.collectAsState()
 
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -42,6 +43,16 @@ fun CameraScreen(
             viewModel.onPermissionDeniedDismissed()
         }
     }
+    
+    LaunchedEffect(unsupportedFeatureMessage) {
+        unsupportedFeatureMessage?.let { msg ->
+            snackbarHostState.showSnackbar(
+                message = msg,
+                duration = SnackbarDuration.Long
+            )
+            viewModel.dismissUnsupportedMessage()
+        }
+    }
 
     val selectedFps by viewModel.selectedFps.collectAsState()
     val selectedSize by viewModel.selectedSize.collectAsState()
@@ -52,33 +63,37 @@ fun CameraScreen(
     val lastVideoPath by viewModel.lastVideoPath.collectAsState()
     val lastMetaPath by viewModel.lastMetaPath.collectAsState()
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        containerColor = Color.Transparent,
+    val availableFpsOptions by viewModel.availableFpsOptions.collectAsState()
+    val availableSizeOptions by viewModel.availableSizeOptions.collectAsState()
+    val isoRange by viewModel.isoRange.collectAsState()
+    val shutterRangeNs by viewModel.shutterRangeNs.collectAsState()
+    val isUnsupportedSnackbarVisible = remember { mutableStateOf(false) }
+
+//    Scaffold(
+//        snackbarHost = { SnackbarHost(snackbarHostState) },
+//        containerColor = Color.Transparent,
+    Surface(
+        color = MaterialTheme.colorScheme.background,
         modifier = Modifier
             .fillMaxSize()
-            .padding(innerPadding)
-    ) { scaffoldPadding ->
+//            .padding(scaffoldPadding)
+    ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFF0D0D0F))
-                .padding(scaffoldPadding)
+            modifier = Modifier.fillMaxSize()
         ) {
             // TOP HALF: No Live Preview Area
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .background(Color(0xFF0A0A0F)),
+                    .background(MaterialTheme.colorScheme.surface),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = "[ NO LIVE PREVIEW ]\n\nCamera records directly\nto storage at high speed.\nPreview would limit FPS.",
-                    color = Color(0xFF333344),
-                    fontSize = 14.sp,
-                    textAlign = TextAlign.Center,
-                    lineHeight = 22.sp
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center
                 )
 
                 if (isRecording) {
@@ -91,13 +106,13 @@ fun CameraScreen(
                         Box(
                             modifier = Modifier
                                 .size(12.dp)
-                                .background(Color.Red, CircleShape)
+                                .background(MaterialTheme.colorScheme.error, CircleShape)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = recordingTime,
-                            color = Color.Red,
-                            fontSize = 16.sp,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Monospace
                         )
@@ -113,8 +128,8 @@ fun CameraScreen(
                 ) {
                     Text(
                         text = statusMessage,
-                        color = Color.Gray,
-                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.labelMedium,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
 
@@ -128,29 +143,29 @@ fun CameraScreen(
                                 .weight(1f)
                                 .height(56.dp),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = if (isRecording) Color(0xFFF44336) else Color(0xFF2196F3)
+                                containerColor = if (isRecording) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                                contentColor = if (isRecording) MaterialTheme.colorScheme.onError else MaterialTheme.colorScheme.onPrimary
                             ),
-                            shape = RoundedCornerShape(8.dp)
+                            shape = RoundedCornerShape(12.dp)
                         ) {
                             Text(
                                 text = if (isRecording) "⏹  STOP" else "⏺  RECORD",
-                                color = Color.White,
+                                style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.Bold
                             )
                         }
 
-                        Button(
+                        FilledTonalButton(
                             onClick = { onPlaybackClick(lastVideoPath, lastMetaPath) },
                             modifier = Modifier
                                 .weight(1f)
                                 .height(56.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
-                            shape = RoundedCornerShape(8.dp),
+                            shape = RoundedCornerShape(12.dp),
                             enabled = !isRecording && lastVideoPath != null
                         ) {
                             Text(
                                 text = "▶  PLAYBACK",
-                                color = Color.White,
+                                style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.Bold
                             )
                         }
@@ -158,52 +173,63 @@ fun CameraScreen(
                 }
             }
 
-            HorizontalDivider(color = Color(0xFF222228), thickness = 1.dp)
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, thickness = 1.dp)
 
             // BOTTOM HALF: Controls
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1.2f)
-                    .background(Color(0xFF1A1A1F))
+                    .background(MaterialTheme.colorScheme.background)
                     .padding(16.dp)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
                     text = "High Speed Camera Specifications",
-                    color = Color(0xFF00E5FF),
-                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    letterSpacing = 1.5.sp,
-                    modifier = Modifier.padding(bottom = 12.dp)
+                    letterSpacing = 1.5.sp
                 )
 
-                Text(
-                    text = cameraInfo,
-                    color = Color.Gray,
-                    fontSize = 12.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color(0xFF111116), RoundedCornerShape(4.dp))
-                        .padding(12.dp)
-                )
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(
+                        text = cameraInfo,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(12.dp)
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Row(modifier = Modifier.fillMaxWidth()) {
                     DropdownMenuBox(
                         label = "FRAME RATE",
-                        items = viewModel.FPS_OPTIONS.map { "$it FPS" },
+                        items = availableFpsOptions.map { "$it FPS" },
                         selectedItem = "$selectedFps FPS",
-                        onItemSelected = { idx -> viewModel.setFps(viewModel.FPS_OPTIONS[idx]) },
+                        onItemSelected = { idx -> 
+                            if (idx in availableFpsOptions.indices) {
+                                viewModel.setFps(availableFpsOptions[idx]) 
+                            }
+                        },
                         modifier = Modifier.weight(1f).padding(end = 4.dp)
                     )
 
                     DropdownMenuBox(
                         label = "RESOLUTION",
-                        items = viewModel.HIGH_SPEED_SIZES.map { "${it.width} × ${it.height}" },
+                        items = availableSizeOptions.map { "${it.width} × ${it.height}" },
                         selectedItem = "${selectedSize.width} × ${selectedSize.height}",
-                        onItemSelected = { idx -> viewModel.setSize(viewModel.HIGH_SPEED_SIZES[idx]) },
+                        onItemSelected = { idx -> 
+                            if (idx in availableSizeOptions.indices) {
+                                viewModel.setSize(availableSizeOptions[idx])
+                            }
+                        },
                         modifier = Modifier.weight(1f).padding(start = 4.dp)
                     )
                 }
@@ -213,8 +239,8 @@ fun CameraScreen(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = "MANUAL EXPOSURE",
-                        color = Color.Gray,
-                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.labelLarge,
                         modifier = Modifier.weight(1f)
                     )
                     Switch(
@@ -224,50 +250,56 @@ fun CameraScreen(
                 }
 
                 if (isManualExposure) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color(0xFF111116), RoundedCornerShape(8.dp))
-                            .padding(16.dp)
-                            .padding(top = 8.dp)
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                        shape = RoundedCornerShape(12.dp)
                     ) {
-                        Text("ISO: $selectedIso", color = Color.White, fontWeight = FontWeight.Bold)
-                        Slider(
-                            value = selectedIso.toFloat(),
-                            onValueChange = { viewModel.setIso(it.toInt()) },
-                            valueRange = 100f..6400f,
-                            steps = 6
-                        )
+                        Column(
+                            modifier = Modifier.padding(16.dp)
+                        ) {
+                            Text("ISO: $selectedIso", color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                            Slider(
+                                value = selectedIso.toFloat(),
+                                onValueChange = { viewModel.setIso(it.toInt()) },
+                                valueRange = isoRange.lower.toFloat()..isoRange.upper.toFloat(),
+                                steps = 6
+                            )
 
-                        Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
 
-                        val denominator = (1_000_000_000.0 / selectedShutterNs).toInt()
-                        Text("Shutter: 1/$denominator s", color = Color.White, fontWeight = FontWeight.Bold)
+                            val denominator = (1_000_000_000.0 / selectedShutterNs).toInt()
+                            Text("Shutter: 1/$denominator s", color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
 
-                        Slider(
-                            value = selectedShutterNs.toFloat(),
-                            onValueChange = { viewModel.setShutterNs(it.toLong()) },
-                            valueRange = 250_000f..33_333_333f // 1/4000s to 1/30s
-                        )
-                        Text(
-                            "1/4000s ◀──────────────▶ 1/30s",
-                            color = Color.Gray,
-                            fontSize = 10.sp,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                            Slider(
+                                value = selectedShutterNs.toFloat(),
+                                onValueChange = { viewModel.setShutterNs(it.toLong()) },
+                                valueRange = shutterRangeNs.lower.toFloat()..shutterRangeNs.upper.toFloat()
+                            )
+                            val maxDenominator = (1_000_000_000.0 / shutterRangeNs.lower.coerceAtLeast(1)).toInt()
+                            val minDenominator = (1_000_000_000.0 / shutterRangeNs.upper.coerceAtLeast(1)).toInt()
+                            
+                            Text(
+                                "1/${maxDenominator}s ◀──────────────▶ 1/${minDenominator}s",
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                                style = MaterialTheme.typography.labelSmall,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
                     }
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "⚠ Manual ISO/shutter may be limited in high-speed mode on some devices.",
-                    color = Color(0xFFFF9800),
-                    fontSize = 11.sp
+                    color = MaterialTheme.colorScheme.tertiary,
+                    style = MaterialTheme.typography.labelSmall
                 )
             }
         }
     }
+//    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -282,7 +314,7 @@ fun DropdownMenuBox(
     var expanded by remember { mutableStateOf(false) }
 
     Column(modifier = modifier) {
-        Text(text = label, color = Color.Gray, fontSize = 10.sp, letterSpacing = 1.5.sp)
+        Text(text = label, color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.labelSmall, letterSpacing = 1.5.sp)
         Spacer(modifier = Modifier.height(4.dp))
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -296,20 +328,21 @@ fun DropdownMenuBox(
                 colors = ExposedDropdownMenuDefaults.textFieldColors(
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedContainerColor = Color(0xFF222228),
-                    unfocusedContainerColor = Color(0xFF222228)
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant
                 ),
-                textStyle = LocalTextStyle.current.copy(color = Color.White),
+                shape = RoundedCornerShape(8.dp),
+                textStyle = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
                 modifier = Modifier.menuAnchor()
             )
             ExposedDropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
-                modifier = Modifier.background(Color(0xFF222228))
+                modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
             ) {
                 items.forEachIndexed { index, selectionOption ->
                     DropdownMenuItem(
-                        text = { Text(text = selectionOption, color = Color.White) },
+                        text = { Text(text = selectionOption, color = MaterialTheme.colorScheme.onSurfaceVariant) },
                         onClick = {
                             onItemSelected(index)
                             expanded = false
