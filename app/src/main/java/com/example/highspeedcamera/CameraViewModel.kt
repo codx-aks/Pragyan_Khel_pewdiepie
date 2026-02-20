@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ContentValues
 import android.content.Context
+import android.content.pm.PackageManager
+import android.Manifest
 import android.hardware.camera2.*
 import android.media.MediaRecorder
 import android.net.Uri
@@ -17,6 +19,7 @@ import android.util.Range
 import android.util.Size
 import android.view.Surface
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
@@ -33,6 +36,7 @@ import java.util.*
 
 class CameraViewModel(application: Application) : AndroidViewModel(application) {
 
+    // region variables
     private val TAG = "CameraViewModel"
 
     private val cameraManager = application.getSystemService(Context.CAMERA_SERVICE) as CameraManager
@@ -65,6 +69,9 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     private val _statusMessage = MutableStateFlow("Initializing...")
     val statusMessage = _statusMessage.asStateFlow()
 
+    private val _permissionDenied = MutableStateFlow(false)
+    val permissionDenied = _permissionDenied.asStateFlow()
+
     private val _cameraInfo = MutableStateFlow("Detecting camera...")
     val cameraInfo = _cameraInfo.asStateFlow()
 
@@ -95,6 +102,8 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
         Size(640, 480)
     )
     val FPS_OPTIONS = listOf(240, 120, 60)
+
+    // endregion
 
     fun initializeCamera() {
         startBackgroundThread()
@@ -149,8 +158,20 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
         _cameraInfo.value = "✓ High-speed capable\nFPS: $fpsInfo\nSizes: $sizeInfo"
     }
 
-    @SuppressLint("MissingPermission")
     fun openCamera() {
+        val hasPermission = ContextCompat.checkSelfPermission(
+            getApplication(),
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (!hasPermission) {
+            _permissionDenied.value = true
+            _statusMessage.value = "Camera permission denied"
+            return
+        }
+        
+        _permissionDenied.value = false
+
         try {
             cameraManager.openCamera(cameraId, object : CameraDevice.StateCallback() {
                 override fun onOpened(camera: CameraDevice) {
@@ -171,6 +192,10 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
             Log.e(TAG, "Cannot open camera", e)
             _statusMessage.value = "Cannot open camera"
         }
+    }
+    
+    fun onPermissionDeniedDismissed() {
+        _permissionDenied.value = false
     }
 
     fun toggleRecording() {

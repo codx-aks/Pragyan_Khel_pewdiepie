@@ -9,10 +9,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.highspeedcamera.ui.theme.HighSpeedCameraTheme
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,14 +39,11 @@ class MainActivity : ComponentActivity() {
                     Manifest.permission.RECORD_AUDIO
                 )
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-                    // API 28 and below: need WRITE_EXTERNAL_STORAGE for Downloads access
                     perms.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    // API 33+: need READ_MEDIA_VIDEO to read back the saved videos
                     perms.add(Manifest.permission.READ_MEDIA_VIDEO)
                 } else {
-                    // API 29-32: need READ_EXTERNAL_STORAGE to read back files
                     perms.add(Manifest.permission.READ_EXTERNAL_STORAGE)
                 }
                 return perms.toTypedArray()
@@ -60,7 +61,15 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            HighSpeedCameraApp(cameraViewModel, playbackViewModel)
+            HighSpeedCameraTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    HighSpeedCameraNavHost(
+                        cameraViewModel = cameraViewModel,
+                        playbackViewModel = playbackViewModel,
+                        innerPadding = innerPadding
+                    )
+                }
+            }
         }
     }
 
@@ -86,54 +95,53 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HighSpeedCameraApp(
+fun HighSpeedCameraNavHost(
     cameraViewModel: CameraViewModel,
-    playbackViewModel: PlaybackViewModel
+    playbackViewModel: PlaybackViewModel,
+    innerPadding: PaddingValues
 ) {
     val navController = rememberNavController()
 
-    Scaffold { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = "camera",
-        ) {
-            composable("camera") {
-                CameraScreen(
-                    innerPadding = innerPadding,
-                    viewModel = cameraViewModel,
-                    onPlaybackClick = { videoPath, metaPath ->
-                        if (videoPath != null) {
-                            val encVideo = URLEncoder.encode(videoPath, "UTF-8")
-                            val encMeta = if (metaPath != null) URLEncoder.encode(metaPath, "UTF-8") else "null"
-                            navController.navigate("playback/$encVideo/$encMeta")
-                        }
+    NavHost(
+        navController = navController,
+        startDestination = "camera",
+    ) {
+        composable("camera") {
+            CameraScreen(
+                innerPadding = innerPadding,
+                viewModel = cameraViewModel,
+                onPlaybackClick = { videoPath, metaPath ->
+                    if (videoPath != null) {
+                        val encVideo = URLEncoder.encode(videoPath, "UTF-8")
+                        val encMeta = if (metaPath != null) URLEncoder.encode(metaPath, "UTF-8") else "null"
+                        navController.navigate("playback/$encVideo/$encMeta")
                     }
-                )
-            }
+                }
+            )
+        }
 
-            composable(
-                route = "playback/{videoPath}/{metaPath}",
-                arguments = listOf(
-                    navArgument("videoPath") { type = NavType.StringType },
-                    navArgument("metaPath") { type = NavType.StringType }
-                )
-            ) { backStackEntry ->
-                val encVideo = backStackEntry.arguments?.getString("videoPath") ?: ""
-                val encMeta = backStackEntry.arguments?.getString("metaPath") ?: "null"
-                
-                val videoPath = URLDecoder.decode(encVideo, "UTF-8")
-                val metaPath = if (encMeta != "null") URLDecoder.decode(encMeta, "UTF-8") else null
+        composable(
+            route = "playback/{videoPath}/{metaPath}",
+            arguments = listOf(
+                navArgument("videoPath") { type = NavType.StringType },
+                navArgument("metaPath") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val encVideo = backStackEntry.arguments?.getString("videoPath") ?: ""
+            val encMeta = backStackEntry.arguments?.getString("metaPath") ?: "null"
+            
+            val videoPath = URLDecoder.decode(encVideo, "UTF-8")
+            val metaPath = if (encMeta != "null") URLDecoder.decode(encMeta, "UTF-8") else null
 
-                PlaybackScreen(
-                    innerPadding = innerPadding,
-                    videoPath = videoPath,
-                    metaPath = metaPath,
-                    viewModel = playbackViewModel,
-                    onBackClick = {
-                        navController.popBackStack()
-                    }
-                )
-            }
+            PlaybackScreen(
+                innerPadding = innerPadding,
+                videoPath = videoPath,
+                metaPath = metaPath,
+                viewModel = playbackViewModel,
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }
