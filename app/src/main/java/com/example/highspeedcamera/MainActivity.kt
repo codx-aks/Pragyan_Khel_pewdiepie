@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -126,8 +127,7 @@ fun HighSpeedCameraNavHost(
                     navController.navigate("camera")
                 },
                 onDropMergeClick = {
-                    // Placeholder for future functionality
-                    Toast.makeText(context, "Drop/Merge - Coming Soon!", Toast.LENGTH_SHORT).show()
+                    navController.navigate("dropMerge")
                 },
                 onFocusTrackClick = {
                     // Open WebView Activity
@@ -170,6 +170,14 @@ fun HighSpeedCameraNavHost(
                 metaPath = metaPath,
                 viewModel = playbackViewModel,
                 onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable("dropMerge") {
+            DropMergeScreen(
+                onBack = {
                     navController.popBackStack()
                 }
             )

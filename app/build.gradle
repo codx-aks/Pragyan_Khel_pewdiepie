@@ -57,4 +57,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation libs.androidx.compose.runtime.android
     implementation(libs.androidx.navigation.compose)
+
+    // Drop-Merge (Temporal Detector) feature dependencies
+    implementation(libs.opencv)
+    implementation(libs.coroutines.android)
+    implementation(libs.lifecycle.runtime.compose)
 }
