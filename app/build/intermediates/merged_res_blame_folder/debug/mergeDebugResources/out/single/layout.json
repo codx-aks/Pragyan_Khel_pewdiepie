@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "com.example.highspeedcamera.app-mergeDebugResources-30:/layout/activity_main.xml",
+        "source": "com.example.highspeedcamera.app-main-33:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.highspeedcamera.app-mergeDebugResources-30:/layout/activity_playback.xml",
+        "source": "com.example.highspeedcamera.app-main-33:/layout/activity_playback.xml"
+    }
+]

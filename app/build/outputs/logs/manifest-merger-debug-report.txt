@@ -1,0 +1,364 @@
+-- Merging decision tree log ---
+provider#androidx.core.content.FileProvider
+INJECTED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:50:9-58:20
+	android:grantUriPermissions
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:54:13-47
+	android:authorities
+		INJECTED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:52:13-64
+	android:exported
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:53:13-37
+	android:name
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:51:13-62
+manifest
+ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:2:1-62:12
+INJECTED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:2:1-62:12
+INJECTED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:2:1-62:12
+INJECTED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:2:1-62:12
+MERGED from [androidx.databinding:viewbinding:8.3.2] /home/nithin/.gradle/caches/9.0.0/transforms/a12a5186014f1cb10e86f325ef769354/transformed/viewbinding-8.3.2/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.material:material:1.12.0] /home/nithin/.gradle/caches/9.0.0/transforms/1fdd55cf484201dc89ddc6bb4c889627/transformed/material-1.12.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/nithin/.gradle/caches/9.0.0/transforms/7028b9eeb897fa844ef3293a38d3c293/transformed/constraintlayout-2.1.4/AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.appcompat:appcompat-resources:1.7.0] /home/nithin/.gradle/caches/9.0.0/transforms/238bc486550943ecdabff74c3e9f9b3c/transformed/appcompat-resources-1.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.appcompat:appcompat:1.7.0] /home/nithin/.gradle/caches/9.0.0/transforms/853b2d27a14feb98805d7933a213a2ff/transformed/appcompat-1.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/c961a0aa30d896e1563aeda21c0fc64f/transformed/viewpager2-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.fragment:fragment:1.5.4] /home/nithin/.gradle/caches/9.0.0/transforms/52c8b76857618ba4ae9a56b21d0a223a/transformed/fragment-1.5.4/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity:1.9.0] /home/nithin/.gradle/caches/9.0.0/transforms/ca330985d16738478bebf4898e62d236/transformed/activity-1.9.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/11832d05be55eab62a0a934de15f403a/transformed/emoji2-views-helper-1.3.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/8341e4914366c9ec00dd521dbb945abc/transformed/emoji2-1.3.0/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /home/nithin/.gradle/caches/9.0.0/transforms/12348aa2bdf3866e2c2bf35723977c23/transformed/drawerlayout-1.1.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /home/nithin/.gradle/caches/9.0.0/transforms/28aaab586f2af4e6465f51d31f7727a4/transformed/coordinatorlayout-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.transition:transition:1.5.0] /home/nithin/.gradle/caches/9.0.0/transforms/e45f6ad6a4df9492e73a97ccace7b3ff/transformed/transition-1.5.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/07507ed4c225f2ad84f12bfc84b3b228/transformed/dynamicanimation-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /home/nithin/.gradle/caches/9.0.0/transforms/9585bd832f1e26cd19d7cd2d3c236f22/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /home/nithin/.gradle/caches/9.0.0/transforms/f6df8d625a369da457fc880a6302201b/transformed/vectordrawable-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/6d25e9238578842dbc32b2ebe77ef060/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/b32cbb69185fbf2e4f67c79166227a22/transformed/loader-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/dbb1960084cff744c8cfb2f821c29004/transformed/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /home/nithin/.gradle/caches/9.0.0/transforms/4a49f69051e39e826d42b7971158e6ff/transformed/recyclerview-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.customview:customview:1.1.0] /home/nithin/.gradle/caches/9.0.0/transforms/3c855c517f7884a67ab082907cf70c4d/transformed/customview-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.savedstate:savedstate:1.2.1] /home/nithin/.gradle/caches/9.0.0/transforms/93e04fbb085d45319f508f48cea6c764/transformed/savedstate-1.2.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/1d45f82c2f224ded06195fbfb976d8ff/transformed/lifecycle-livedata-2.6.2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/636e0ded11135d24dbce38be78b2c25a/transformed/lifecycle-viewmodel-2.6.2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/c88a9145bccdac7404e201ca42e58dc0/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/562eece3ef7f8f76c18bb03e9c7b9d36/transformed/lifecycle-livedata-core-2.6.2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/710fe605321f8cd5a3e9aa204baf5fdc/transformed/lifecycle-runtime-2.6.2/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/178b9c320fbc0f31022d93dc297e2234/transformed/lifecycle-viewmodel-savedstate-2.6.2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core-ktx:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a16244eabfe5921f6b70e1e9871d8520/transformed/core-ktx-1.13.1/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.annotation:annotation-experimental:1.4.0] /home/nithin/.gradle/caches/9.0.0/transforms/4ee3a325543129757d4b37eed74608c8/transformed/annotation-experimental-1.4.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/8ec91b4e03194b5919c854cd6573e021/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:17:1-55:12
+MERGED from [androidx.cardview:cardview:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/6c5c50ed3e52def8f4c42e1868b904cb/transformed/cardview-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/nithin/.gradle/caches/9.0.0/transforms/28350640ddcd0933571d21dc74d61e39/transformed/startup-runtime-1.1.1/AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.tracing:tracing:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/09aa3aa984cfe8c87372358b1555eeaf/transformed/tracing-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/23851d02c56ccf9a684fdf9c4df0f870/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/nithin/.gradle/caches/9.0.0/transforms/5bfc051a1ff0b6d840fa818cb6d946dc/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/nithin/.gradle/caches/9.0.0/transforms/aaa506fccc4b1c301cea4469248a3780/transformed/core-runtime-2.2.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/2805ce4db905bd179177d40d1e7d2116/transformed/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/5a66e38cf2bc3be9e69a4ff42756742b/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/975aae68586ac14b4b3a6178d9b2be8c/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
+	package
+		INJECTED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.CAMERA
+ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:5:5-65
+	android:name
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:5:22-62
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:6:5-71
+	android:name
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:6:22-68
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:7:5-8:38
+	android:maxSdkVersion
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:8:9-35
+	android:name
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:7:22-77
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:9:5-10:38
+	android:maxSdkVersion
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:10:9-35
+	android:name
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:9:22-78
+uses-permission#android.permission.READ_MEDIA_VIDEO
+ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:11:5-12:38
+	android:minSdkVersion
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:12:9-35
+	android:name
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:11:22-72
+uses-feature#android.hardware.camera2
+ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:15:5-17:35
+	android:required
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:17:9-32
+	android:name
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:16:9-48
+uses-feature#android.hardware.camera.any
+ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:18:5-20:35
+	android:required
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:20:9-32
+	android:name
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:19:9-51
+application
+ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:22:5-60:19
+INJECTED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:22:5-60:19
+MERGED from [com.google.android.material:material:1.12.0] /home/nithin/.gradle/caches/9.0.0/transforms/1fdd55cf484201dc89ddc6bb4c889627/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.12.0] /home/nithin/.gradle/caches/9.0.0/transforms/1fdd55cf484201dc89ddc6bb4c889627/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/nithin/.gradle/caches/9.0.0/transforms/7028b9eeb897fa844ef3293a38d3c293/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/nithin/.gradle/caches/9.0.0/transforms/7028b9eeb897fa844ef3293a38d3c293/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/8341e4914366c9ec00dd521dbb945abc/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/8341e4914366c9ec00dd521dbb945abc/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:28:5-89
+MERGED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:28:5-89
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/c88a9145bccdac7404e201ca42e58dc0/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/c88a9145bccdac7404e201ca42e58dc0/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/nithin/.gradle/caches/9.0.0/transforms/28350640ddcd0933571d21dc74d61e39/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/nithin/.gradle/caches/9.0.0/transforms/28350640ddcd0933571d21dc74d61e39/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/nithin/.gradle/caches/9.0.0/transforms/5bfc051a1ff0b6d840fa818cb6d946dc/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/nithin/.gradle/caches/9.0.0/transforms/5bfc051a1ff0b6d840fa818cb6d946dc/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+	android:extractNativeLibs
+		INJECTED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml
+	android:requestLegacyExternalStorage
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:29:9-52
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
+	android:supportsRtl
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:27:9-35
+	android:label
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:25:9-41
+	android:roundIcon
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:26:9-54
+	android:icon
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:24:9-43
+	android:allowBackup
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:23:9-35
+	android:theme
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:28:9-53
+activity#com.example.highspeedcamera.MainActivity
+ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:31:9-41:20
+	android:screenOrientation
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:34:13-50
+	android:label
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:35:13-45
+	android:exported
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:33:13-36
+	android:theme
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:36:13-69
+	android:name
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:32:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:37:13-40:29
+action#android.intent.action.MAIN
+ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:38:17-69
+	android:name
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:38:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:39:17-77
+	android:name
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:39:27-74
+activity#com.example.highspeedcamera.PlaybackActivity
+ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:43:9-48:72
+	android:screenOrientation
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:46:13-50
+	android:label
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:47:13-37
+	android:exported
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:45:13-37
+	android:theme
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:48:13-69
+	android:name
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:44:13-45
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:55:13-57:53
+	android:resource
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:57:17-51
+	android:name
+		ADDED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml:56:17-67
+uses-sdk
+INJECTED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml
+INJECTED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml
+MERGED from [androidx.databinding:viewbinding:8.3.2] /home/nithin/.gradle/caches/9.0.0/transforms/a12a5186014f1cb10e86f325ef769354/transformed/viewbinding-8.3.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.databinding:viewbinding:8.3.2] /home/nithin/.gradle/caches/9.0.0/transforms/a12a5186014f1cb10e86f325ef769354/transformed/viewbinding-8.3.2/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.material:material:1.12.0] /home/nithin/.gradle/caches/9.0.0/transforms/1fdd55cf484201dc89ddc6bb4c889627/transformed/material-1.12.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.12.0] /home/nithin/.gradle/caches/9.0.0/transforms/1fdd55cf484201dc89ddc6bb4c889627/transformed/material-1.12.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/nithin/.gradle/caches/9.0.0/transforms/7028b9eeb897fa844ef3293a38d3c293/transformed/constraintlayout-2.1.4/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/nithin/.gradle/caches/9.0.0/transforms/7028b9eeb897fa844ef3293a38d3c293/transformed/constraintlayout-2.1.4/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.appcompat:appcompat-resources:1.7.0] /home/nithin/.gradle/caches/9.0.0/transforms/238bc486550943ecdabff74c3e9f9b3c/transformed/appcompat-resources-1.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.7.0] /home/nithin/.gradle/caches/9.0.0/transforms/238bc486550943ecdabff74c3e9f9b3c/transformed/appcompat-resources-1.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat:1.7.0] /home/nithin/.gradle/caches/9.0.0/transforms/853b2d27a14feb98805d7933a213a2ff/transformed/appcompat-1.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat:1.7.0] /home/nithin/.gradle/caches/9.0.0/transforms/853b2d27a14feb98805d7933a213a2ff/transformed/appcompat-1.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/c961a0aa30d896e1563aeda21c0fc64f/transformed/viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/c961a0aa30d896e1563aeda21c0fc64f/transformed/viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.5.4] /home/nithin/.gradle/caches/9.0.0/transforms/52c8b76857618ba4ae9a56b21d0a223a/transformed/fragment-1.5.4/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.5.4] /home/nithin/.gradle/caches/9.0.0/transforms/52c8b76857618ba4ae9a56b21d0a223a/transformed/fragment-1.5.4/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.9.0] /home/nithin/.gradle/caches/9.0.0/transforms/ca330985d16738478bebf4898e62d236/transformed/activity-1.9.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.9.0] /home/nithin/.gradle/caches/9.0.0/transforms/ca330985d16738478bebf4898e62d236/transformed/activity-1.9.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/11832d05be55eab62a0a934de15f403a/transformed/emoji2-views-helper-1.3.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/11832d05be55eab62a0a934de15f403a/transformed/emoji2-views-helper-1.3.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/8341e4914366c9ec00dd521dbb945abc/transformed/emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/8341e4914366c9ec00dd521dbb945abc/transformed/emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /home/nithin/.gradle/caches/9.0.0/transforms/12348aa2bdf3866e2c2bf35723977c23/transformed/drawerlayout-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /home/nithin/.gradle/caches/9.0.0/transforms/12348aa2bdf3866e2c2bf35723977c23/transformed/drawerlayout-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /home/nithin/.gradle/caches/9.0.0/transforms/28aaab586f2af4e6465f51d31f7727a4/transformed/coordinatorlayout-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /home/nithin/.gradle/caches/9.0.0/transforms/28aaab586f2af4e6465f51d31f7727a4/transformed/coordinatorlayout-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.5.0] /home/nithin/.gradle/caches/9.0.0/transforms/e45f6ad6a4df9492e73a97ccace7b3ff/transformed/transition-1.5.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.transition:transition:1.5.0] /home/nithin/.gradle/caches/9.0.0/transforms/e45f6ad6a4df9492e73a97ccace7b3ff/transformed/transition-1.5.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/07507ed4c225f2ad84f12bfc84b3b228/transformed/dynamicanimation-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/07507ed4c225f2ad84f12bfc84b3b228/transformed/dynamicanimation-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /home/nithin/.gradle/caches/9.0.0/transforms/9585bd832f1e26cd19d7cd2d3c236f22/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /home/nithin/.gradle/caches/9.0.0/transforms/9585bd832f1e26cd19d7cd2d3c236f22/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /home/nithin/.gradle/caches/9.0.0/transforms/f6df8d625a369da457fc880a6302201b/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /home/nithin/.gradle/caches/9.0.0/transforms/f6df8d625a369da457fc880a6302201b/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/6d25e9238578842dbc32b2ebe77ef060/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/6d25e9238578842dbc32b2ebe77ef060/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/b32cbb69185fbf2e4f67c79166227a22/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/b32cbb69185fbf2e4f67c79166227a22/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/dbb1960084cff744c8cfb2f821c29004/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/dbb1960084cff744c8cfb2f821c29004/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /home/nithin/.gradle/caches/9.0.0/transforms/4a49f69051e39e826d42b7971158e6ff/transformed/recyclerview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /home/nithin/.gradle/caches/9.0.0/transforms/4a49f69051e39e826d42b7971158e6ff/transformed/recyclerview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.1.0] /home/nithin/.gradle/caches/9.0.0/transforms/3c855c517f7884a67ab082907cf70c4d/transformed/customview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.1.0] /home/nithin/.gradle/caches/9.0.0/transforms/3c855c517f7884a67ab082907cf70c4d/transformed/customview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /home/nithin/.gradle/caches/9.0.0/transforms/93e04fbb085d45319f508f48cea6c764/transformed/savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /home/nithin/.gradle/caches/9.0.0/transforms/93e04fbb085d45319f508f48cea6c764/transformed/savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/1d45f82c2f224ded06195fbfb976d8ff/transformed/lifecycle-livedata-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/1d45f82c2f224ded06195fbfb976d8ff/transformed/lifecycle-livedata-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/636e0ded11135d24dbce38be78b2c25a/transformed/lifecycle-viewmodel-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/636e0ded11135d24dbce38be78b2c25a/transformed/lifecycle-viewmodel-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/c88a9145bccdac7404e201ca42e58dc0/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/c88a9145bccdac7404e201ca42e58dc0/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/562eece3ef7f8f76c18bb03e9c7b9d36/transformed/lifecycle-livedata-core-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/562eece3ef7f8f76c18bb03e9c7b9d36/transformed/lifecycle-livedata-core-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/710fe605321f8cd5a3e9aa204baf5fdc/transformed/lifecycle-runtime-2.6.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/710fe605321f8cd5a3e9aa204baf5fdc/transformed/lifecycle-runtime-2.6.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/178b9c320fbc0f31022d93dc297e2234/transformed/lifecycle-viewmodel-savedstate-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/178b9c320fbc0f31022d93dc297e2234/transformed/lifecycle-viewmodel-savedstate-2.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core-ktx:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a16244eabfe5921f6b70e1e9871d8520/transformed/core-ktx-1.13.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a16244eabfe5921f6b70e1e9871d8520/transformed/core-ktx-1.13.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.0] /home/nithin/.gradle/caches/9.0.0/transforms/4ee3a325543129757d4b37eed74608c8/transformed/annotation-experimental-1.4.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.0] /home/nithin/.gradle/caches/9.0.0/transforms/4ee3a325543129757d4b37eed74608c8/transformed/annotation-experimental-1.4.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/8ec91b4e03194b5919c854cd6573e021/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/8ec91b4e03194b5919c854cd6573e021/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/6c5c50ed3e52def8f4c42e1868b904cb/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/6c5c50ed3e52def8f4c42e1868b904cb/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/nithin/.gradle/caches/9.0.0/transforms/28350640ddcd0933571d21dc74d61e39/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/nithin/.gradle/caches/9.0.0/transforms/28350640ddcd0933571d21dc74d61e39/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.tracing:tracing:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/09aa3aa984cfe8c87372358b1555eeaf/transformed/tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/09aa3aa984cfe8c87372358b1555eeaf/transformed/tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/23851d02c56ccf9a684fdf9c4df0f870/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/23851d02c56ccf9a684fdf9c4df0f870/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/nithin/.gradle/caches/9.0.0/transforms/5bfc051a1ff0b6d840fa818cb6d946dc/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/nithin/.gradle/caches/9.0.0/transforms/5bfc051a1ff0b6d840fa818cb6d946dc/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/nithin/.gradle/caches/9.0.0/transforms/aaa506fccc4b1c301cea4469248a3780/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/nithin/.gradle/caches/9.0.0/transforms/aaa506fccc4b1c301cea4469248a3780/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/2805ce4db905bd179177d40d1e7d2116/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/2805ce4db905bd179177d40d1e7d2116/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/5a66e38cf2bc3be9e69a4ff42756742b/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/5a66e38cf2bc3be9e69a4ff42756742b/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/975aae68586ac14b4b3a6178d9b2be8c/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /home/nithin/.gradle/caches/9.0.0/transforms/975aae68586ac14b4b3a6178d9b2be8c/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+	android:targetSdkVersion
+		INJECTED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/nithin/Desktop/HighSpeedCamera/app/src/main/AndroidManifest.xml
+provider#androidx.startup.InitializationProvider
+ADDED from [androidx.emoji2:emoji2:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/8341e4914366c9ec00dd521dbb945abc/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/c88a9145bccdac7404e201ca42e58dc0/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/c88a9145bccdac7404e201ca42e58dc0/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/nithin/.gradle/caches/9.0.0/transforms/28350640ddcd0933571d21dc74d61e39/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/nithin/.gradle/caches/9.0.0/transforms/28350640ddcd0933571d21dc74d61e39/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+	tools:node
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/8341e4914366c9ec00dd521dbb945abc/transformed/emoji2-1.3.0/AndroidManifest.xml:28:13-31
+	android:authorities
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/8341e4914366c9ec00dd521dbb945abc/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+	android:exported
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/8341e4914366c9ec00dd521dbb945abc/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/8341e4914366c9ec00dd521dbb945abc/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+meta-data#androidx.emoji2.text.EmojiCompatInitializer
+ADDED from [androidx.emoji2:emoji2:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/8341e4914366c9ec00dd521dbb945abc/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/8341e4914366c9ec00dd521dbb945abc/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/nithin/.gradle/caches/9.0.0/transforms/8341e4914366c9ec00dd521dbb945abc/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+permission#com.example.highspeedcamera.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+uses-permission#com.example.highspeedcamera.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /home/nithin/.gradle/caches/9.0.0/transforms/a08527bfd7c8ee63d9f1d7e1876f2cda/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+meta-data#androidx.lifecycle.ProcessLifecycleInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/c88a9145bccdac7404e201ca42e58dc0/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/c88a9145bccdac7404e201ca42e58dc0/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.6.2] /home/nithin/.gradle/caches/9.0.0/transforms/c88a9145bccdac7404e201ca42e58dc0/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:30:17-78
+meta-data#androidx.profileinstaller.ProfileInstallerInitializer
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+receiver#androidx.profileinstaller.ProfileInstallReceiver
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+	android:enabled
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+	android:permission
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+	android:directBootAware
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+intent-filter#action:name:androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+action#androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+intent-filter#action:name:androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+action#androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+intent-filter#action:name:androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+action#androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+intent-filter#action:name:androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+action#androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/nithin/.gradle/caches/9.0.0/transforms/ad88cbd321bd63ec5c7e55c5655181ec/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
