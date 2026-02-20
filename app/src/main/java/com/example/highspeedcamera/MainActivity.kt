@@ -104,8 +104,18 @@ fun HighSpeedCameraNavHost(
 
     NavHost(
         navController = navController,
-        startDestination = "camera",
+        startDestination = "splash",
     ) {
+        composable("splash") {
+            CricketAnimationScreen(
+                onFinished = {
+                    navController.navigate("camera") {
+                        popUpTo("splash") { inclusive = true }
+                    }
+                }
+            )
+        }
+        
         composable("camera") {
             CameraScreen(
                 innerPadding = innerPadding,
