@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="24"
-        android:targetSdkVersion="34" />
+        android:targetSdkVersion="35" />
 
     <!-- Camera and microphone permissions -->
     <uses-permission android:name="android.permission.CAMERA" />
