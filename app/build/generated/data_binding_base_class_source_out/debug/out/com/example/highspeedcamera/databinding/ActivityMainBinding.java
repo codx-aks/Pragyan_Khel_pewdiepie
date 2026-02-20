@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,6 +31,9 @@ public final class ActivityMainBinding implements ViewBinding {
 
   @NonNull
   public final Button btnRecord;
+
+  @NonNull
+  public final ScrollView controlScrollView;
 
   @NonNull
   public final View divider;
@@ -77,16 +81,17 @@ public final class ActivityMainBinding implements ViewBinding {
   public final TextView tvTimer;
 
   private ActivityMainBinding(@NonNull ConstraintLayout rootView, @NonNull Button btnPlayback,
-      @NonNull Button btnRecord, @NonNull View divider, @NonNull LinearLayout layoutManualControls,
-      @NonNull LinearLayout panelLeft, @NonNull FrameLayout panelRight,
-      @NonNull View recordingIndicator, @NonNull SeekBar seekIso, @NonNull SeekBar seekShutter,
-      @NonNull Spinner spinnerFps, @NonNull Spinner spinnerResolution,
+      @NonNull Button btnRecord, @NonNull ScrollView controlScrollView, @NonNull View divider,
+      @NonNull LinearLayout layoutManualControls, @NonNull LinearLayout panelLeft,
+      @NonNull FrameLayout panelRight, @NonNull View recordingIndicator, @NonNull SeekBar seekIso,
+      @NonNull SeekBar seekShutter, @NonNull Spinner spinnerFps, @NonNull Spinner spinnerResolution,
       @NonNull SwitchMaterial switchManualExposure, @NonNull TextView tvCameraInfo,
       @NonNull TextView tvIsoValue, @NonNull TextView tvShutterValue, @NonNull TextView tvStatus,
       @NonNull TextView tvTimer) {
     this.rootView = rootView;
     this.btnPlayback = btnPlayback;
     this.btnRecord = btnRecord;
+    this.controlScrollView = controlScrollView;
     this.divider = divider;
     this.layoutManualControls = layoutManualControls;
     this.panelLeft = panelLeft;
@@ -140,6 +145,12 @@ public final class ActivityMainBinding implements ViewBinding {
       id = R.id.btnRecord;
       Button btnRecord = ViewBindings.findChildViewById(rootView, id);
       if (btnRecord == null) {
+        break missingId;
+      }
+
+      id = R.id.controlScrollView;
+      ScrollView controlScrollView = ViewBindings.findChildViewById(rootView, id);
+      if (controlScrollView == null) {
         break missingId;
       }
 
@@ -233,10 +244,10 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityMainBinding((ConstraintLayout) rootView, btnPlayback, btnRecord, divider,
-          layoutManualControls, panelLeft, panelRight, recordingIndicator, seekIso, seekShutter,
-          spinnerFps, spinnerResolution, switchManualExposure, tvCameraInfo, tvIsoValue,
-          tvShutterValue, tvStatus, tvTimer);
+      return new ActivityMainBinding((ConstraintLayout) rootView, btnPlayback, btnRecord,
+          controlScrollView, divider, layoutManualControls, panelLeft, panelRight,
+          recordingIndicator, seekIso, seekShutter, spinnerFps, spinnerResolution,
+          switchManualExposure, tvCameraInfo, tvIsoValue, tvShutterValue, tvStatus, tvTimer);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

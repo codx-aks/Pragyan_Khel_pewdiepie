@@ -1,7 +1,7 @@
-#Fri Feb 20 16:44:22 IST 2026
-base.0=/home/nithin/Desktop/HighSpeedCamera/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
-base.1=/home/nithin/Desktop/HighSpeedCamera/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
-base.2=/home/nithin/Desktop/HighSpeedCamera/app/build/intermediates/dex/debug/mergeProjectDexDebug/5/classes.dex
+#Fri Feb 20 18:49:46 IST 2026
+base.0=/home/allen/Allen/dev/projects/Pragyan_Khel_pewdiepie/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
+base.1=/home/allen/Allen/dev/projects/Pragyan_Khel_pewdiepie/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
+base.2=/home/allen/Allen/dev/projects/Pragyan_Khel_pewdiepie/app/build/intermediates/dex/debug/mergeProjectDexDebug/5/classes.dex
 path.0=classes.dex
 path.1=0/classes.dex
 path.2=5/classes.dex

@@ -51,7 +51,7 @@
             android:name="com.example.highspeedcamera.MainActivity"
             android:exported="true"
             android:label="HighSpeed Camera"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.HighSpeedCamera.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,7 +63,7 @@
             android:name="com.example.highspeedcamera.PlaybackActivity"
             android:exported="false"
             android:label="Playback"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.HighSpeedCamera.NoActionBar" />
 
         <provider

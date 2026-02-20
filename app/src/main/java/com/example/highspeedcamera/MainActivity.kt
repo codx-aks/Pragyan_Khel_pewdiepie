@@ -452,6 +452,16 @@ class MainActivity : AppCompatActivity() {
             setAudioEncodingBitRate(128_000)
             setAudioSamplingRate(44100)
             setOutputFile(currentVideoPath)
+
+            try {
+                val characteristics = cameraManager.getCameraCharacteristics(cameraId)
+                val sensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION) ?: 90
+                // Since app is locked to portrait (rotation 0), we set hint to sensor orientation straight
+                setOrientationHint(sensorOrientation)
+            } catch (e: Exception) {
+                setOrientationHint(90) // Fallback for most devices in portrait
+            }
+
             prepare()
         }
 

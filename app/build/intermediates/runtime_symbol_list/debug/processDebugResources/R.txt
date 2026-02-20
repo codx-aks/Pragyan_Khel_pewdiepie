@@ -3231,6 +3231,7 @@ int id contentPanel 0x7f080086
 int id contiguous 0x7f080087
 int id continuousVelocity 0x7f080088
 int id controlBar 0x7f080089
+int id controlScrollView 0x7f08021a
 int id coordinator 0x7f08008a
 int id cos 0x7f08008b
 int id counterclockwise 0x7f08008c

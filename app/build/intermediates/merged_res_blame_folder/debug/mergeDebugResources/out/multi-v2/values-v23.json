@@ -4,7 +4,7 @@
             "outputFile": "com.example.highspeedcamera.app-mergeDebugResources-29:/values-v23/values-v23.xml",
             "map": [
                 {
-                    "source": "/home/nithin/.gradle/caches/9.0.0/transforms/853b2d27a14feb98805d7933a213a2ff/transformed/appcompat-1.7.0/res/values-v23/values-v23.xml",
+                    "source": "/home/allen/.gradle/caches/9.0.0/transforms/853b2d27a14feb98805d7933a213a2ff/transformed/appcompat-1.7.0/res/values-v23/values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,20,34,35,36,39,43,44,45,46",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -15,7 +15,7 @@
                     }
                 },
                 {
-                    "source": "/home/nithin/.gradle/caches/9.0.0/transforms/6c5c50ed3e52def8f4c42e1868b904cb/transformed/cardview-1.0.0/res/values-v23/values-v23.xml",
+                    "source": "/home/allen/.gradle/caches/9.0.0/transforms/6c5c50ed3e52def8f4c42e1868b904cb/transformed/cardview-1.0.0/res/values-v23/values-v23.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -34,7 +34,7 @@
                     }
                 },
                 {
-                    "source": "/home/nithin/.gradle/caches/9.0.0/transforms/1fdd55cf484201dc89ddc6bb4c889627/transformed/material-1.12.0/res/values-v23/values-v23.xml",
+                    "source": "/home/allen/.gradle/caches/9.0.0/transforms/1fdd55cf484201dc89ddc6bb4c889627/transformed/material-1.12.0/res/values-v23/values-v23.xml",
                     "from": {
                         "startLines": "2,5,9,13,16,19,22,25,28,32",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4",

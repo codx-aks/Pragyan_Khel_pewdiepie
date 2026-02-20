@@ -1,34 +1,38 @@
 [
     {
-        "merged": "/home/nithin/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-debug-31:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "/home/nithin/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-main-33:/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "/home/allen/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-debug-31:/drawable_red_dot.xml.flat",
+        "source": "/home/allen/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-main-33:/drawable/red_dot.xml"
     },
     {
-        "merged": "/home/nithin/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-debug-31:/layout_activity_playback.xml.flat",
-        "source": "/home/nithin/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-main-33:/layout/activity_playback.xml"
+        "merged": "/home/allen/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-debug-31:/drawable_spinner_bg.xml.flat",
+        "source": "/home/allen/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-main-33:/drawable/spinner_bg.xml"
     },
     {
-        "merged": "com.example.highspeedcamera.app-debug-31:/drawable_spinner_bg.xml.flat",
-        "source": "com.example.highspeedcamera.app-main-33:/drawable/spinner_bg.xml"
+        "merged": "/home/allen/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-debug-31:/xml_file_paths.xml.flat",
+        "source": "/home/allen/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-main-33:/xml/file_paths.xml"
     },
     {
-        "merged": "/home/nithin/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-debug-31:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "/home/nithin/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-main-33:/mipmap-anydpi-v26/ic_launcher_round.xml"
+        "merged": "com.example.highspeedcamera.app-debug-31:/layout_activity_main.xml.flat",
+        "source": "com.example.highspeedcamera.app-main-33:/layout/activity_main.xml"
     },
     {
-        "merged": "/home/nithin/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-debug-31:/drawable_spinner_bg.xml.flat",
-        "source": "/home/nithin/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-main-33:/drawable/spinner_bg.xml"
+        "merged": "/home/allen/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-debug-31:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/home/allen/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-main-33:/mipmap-anydpi-v26/ic_launcher.xml"
     },
     {
-        "merged": "/home/nithin/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-debug-31:/xml_file_paths.xml.flat",
-        "source": "/home/nithin/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-main-33:/xml/file_paths.xml"
+        "merged": "com.example.highspeedcamera.app-debug-31:/layout_activity_playback.xml.flat",
+        "source": "com.example.highspeedcamera.app-main-33:/layout/activity_playback.xml"
     },
     {
-        "merged": "/home/nithin/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-debug-31:/drawable_red_dot.xml.flat",
-        "source": "/home/nithin/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-main-33:/drawable/red_dot.xml"
+        "merged": "/home/allen/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-debug-31:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/home/allen/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-main-33:/mipmap-anydpi-v26/ic_launcher_round.xml"
     },
     {
-        "merged": "/home/nithin/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-debug-31:/layout_activity_main.xml.flat",
-        "source": "/home/nithin/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-main-33:/layout/activity_main.xml"
+        "merged": "/home/allen/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-debug-31:/layout_activity_playback.xml.flat",
+        "source": "/home/allen/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-main-33:/layout/activity_playback.xml"
+    },
+    {
+        "merged": "/home/allen/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-debug-31:/layout_activity_main.xml.flat",
+        "source": "/home/allen/.gradle/daemon/9.0.0/com.example.highspeedcamera.app-main-33:/layout/activity_main.xml"
     }
 ]

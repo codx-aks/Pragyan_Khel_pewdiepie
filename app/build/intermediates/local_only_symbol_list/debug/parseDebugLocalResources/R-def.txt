@@ -11,6 +11,7 @@ id btnRestart
 id btnShare
 id cardMetadata
 id controlBar
+id controlScrollView
 id divider
 id layoutManualControls
 id panelLeft
