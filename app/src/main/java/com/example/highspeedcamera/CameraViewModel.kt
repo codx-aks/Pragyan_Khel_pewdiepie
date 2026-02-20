@@ -97,6 +97,13 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     private var cameraId = "0"
     private var recordingStartTime = 0L
 
+    // Device capability flags — set once in findHighSpeedCamera()
+    private var isHighSpeedCapable = false
+    private var isManualSensorCapable = false
+
+    private val _isManualExposureSupported = MutableStateFlow(true)
+    val isManualExposureSupported: StateFlow<Boolean> = _isManualExposureSupported.asStateFlow()
+
     private val _availableFpsOptions = MutableStateFlow<List<Int>>(emptyList())
     val availableFpsOptions = _availableFpsOptions.asStateFlow()
 
@@ -220,6 +227,14 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
             }
         }
 
+        // Store capability flags for use in recording paths
+        isHighSpeedCapable = foundHs
+        val allCapabilities = characteristics.get(CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES) ?: intArrayOf()
+        isManualSensorCapable = allCapabilities.contains(
+            CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_MANUAL_SENSOR
+        )
+        _isManualExposureSupported.value = isManualSensorCapable
+
         // Build the supported sets from what the device actually supports
         _supportedFpsSet.value = _availableFpsOptions.value.toSet()
         _supportedSizeSet.value = _availableSizeOptions.value.toSet()
@@ -323,6 +338,14 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
         val targetFps = _selectedFps.value
         val targetSize = _selectedSize.value
 
+        // Device doesn't support constrained high-speed — skip straight to standard recording
+        // with the highest FPS range the device actually advertises.
+        if (!isHighSpeedCapable) {
+            val achievableRange = findBestStandardFpsRange(targetFps)
+            startStandardRecording(camera, targetSize, achievableRange.upper)
+            return
+        }
+
         val fpsRange = findBestFpsRange(targetFps)
         val recordingSize = findBestSize(targetSize, fpsRange)
 
@@ -339,6 +362,9 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
                     }
                     override fun onConfigureFailed(session: CameraCaptureSession) {
                         Log.e(TAG, "High-speed session config failed – falling back")
+                        // Release the recorder created for the failed high-speed session
+                        // before startStandardRecording creates a new one.
+                        try { mediaRecorder?.reset(); mediaRecorder?.release(); mediaRecorder = null } catch (_: Exception) {}
                         startStandardRecording(camera, recordingSize, targetFps)
                     }
                 },
@@ -346,6 +372,7 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
             )
         } catch (e: Exception) {
             Log.e(TAG, "Failed to start high-speed recording", e)
+            try { mediaRecorder?.reset(); mediaRecorder?.release(); mediaRecorder = null } catch (_: Exception) {}
             startStandardRecording(camera, recordingSize, targetFps)
         }
     }
@@ -357,18 +384,29 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
                 addTarget(surface)
                 set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fpsRange)
 
-                if (_isManualExposure.value) {
+                // Only apply AE_MODE_OFF on devices that declare MANUAL_SENSOR capability.
+                // On LIMITED/LEGACY devices, AE_MODE_OFF without proper HAL support breaks
+                // the colour pipeline and produces severe chroma noise.
+                if (_isManualExposure.value && isManualSensorCapable) {
                     set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF)
                     set(CaptureRequest.SENSOR_SENSITIVITY, _selectedIso.value)
-                    set(CaptureRequest.SENSOR_EXPOSURE_TIME, _selectedShutterNs.value)
+                    val maxShutterForFps = 1_000_000_000L / fpsRange.upper
+                    set(CaptureRequest.SENSOR_EXPOSURE_TIME,
+                        _selectedShutterNs.value.coerceAtMost(maxShutterForFps))
                 } else {
                     set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON)
                 }
-                set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO)
 
-                // Reduce grain: enable noise reduction and edge enhancement
+                // Keep AWB running even when AE is off. Many HALs silently disable AWB
+                // when AE_MODE_OFF, causing severe chroma noise / colour cast.
+                set(CaptureRequest.CONTROL_AWB_MODE, CaptureRequest.CONTROL_AWB_MODE_AUTO)
+                set(CaptureRequest.CONTROL_AWB_LOCK, false)
+                set(CaptureRequest.COLOR_CORRECTION_ABERRATION_MODE,
+                    CaptureRequest.COLOR_CORRECTION_ABERRATION_MODE_FAST)
+
+                set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO)
                 set(CaptureRequest.NOISE_REDUCTION_MODE, _selectedNoiseReductionMode.value)
-                set(CaptureRequest.EDGE_MODE, CaptureRequest.EDGE_MODE_HIGH_QUALITY)
+                set(CaptureRequest.EDGE_MODE, CaptureRequest.EDGE_MODE_FAST)
             }
 
             val requests = session.createHighSpeedRequestList(requestBuilder.build())
@@ -386,8 +424,12 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
 
     private fun startStandardRecording(camera: CameraDevice, size: Size, fps: Int) {
         try {
-            val clampedFps = fps.coerceIn(30, 120)
-            setupMediaRecorder(size, clampedFps)
+            // Ask the device what it actually supports — don't blindly request Range(120,120)
+            // on a device that can only do 30fps; the HAL silently ignores unsupported ranges.
+            val bestFpsRange = findBestStandardFpsRange(fps)
+            val actualFps = bestFpsRange.upper
+
+            setupMediaRecorder(size, actualFps)
             val recorderSurface = mediaRecorder!!.surface
 
             camera.createCaptureSession(
@@ -396,21 +438,32 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
                     override fun onConfigured(session: CameraCaptureSession) {
                         val requestBuilder = camera.createCaptureRequest(CameraDevice.TEMPLATE_RECORD).apply {
                             addTarget(recorderSurface)
-                            set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, Range(clampedFps, clampedFps))
-                            if (_isManualExposure.value) {
+                            // Explicitly keep 3A in AUTO mode so AWB/AF pipelines stay active
+                            set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO)
+                            set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, bestFpsRange)
+                            if (_isManualExposure.value && isManualSensorCapable) {
                                 set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF)
                                 set(CaptureRequest.SENSOR_SENSITIVITY, _selectedIso.value)
-                                set(CaptureRequest.SENSOR_EXPOSURE_TIME, _selectedShutterNs.value)
+                                val maxShutterForFps = 1_000_000_000L / actualFps
+                                set(CaptureRequest.SENSOR_EXPOSURE_TIME,
+                                    _selectedShutterNs.value.coerceAtMost(maxShutterForFps))
+                            } else {
+                                set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON)
                             }
-                            // Reduce grain: enable noise reduction and edge enhancement
+                            // Keep AWB alive even when AE is off to prevent chroma noise
+                            set(CaptureRequest.CONTROL_AWB_MODE, CaptureRequest.CONTROL_AWB_MODE_AUTO)
+                            set(CaptureRequest.CONTROL_AWB_LOCK, false)
+                            set(CaptureRequest.COLOR_CORRECTION_ABERRATION_MODE,
+                                CaptureRequest.COLOR_CORRECTION_ABERRATION_MODE_FAST)
                             set(CaptureRequest.NOISE_REDUCTION_MODE, _selectedNoiseReductionMode.value)
-                            set(CaptureRequest.EDGE_MODE, CaptureRequest.EDGE_MODE_HIGH_QUALITY)
+                            set(CaptureRequest.EDGE_MODE, CaptureRequest.EDGE_MODE_FAST)
                         }
                         session.setRepeatingRequest(requestBuilder.build(), null, backgroundHandler)
                         mediaRecorder?.start()
                         recordingStartTime = System.currentTimeMillis()
                         _isRecording.value = true
-                        onRecordingStarted(clampedFps, size)
+                        // Report the FPS the device actually delivers, not what was requested
+                        onRecordingStarted(actualFps, size)
                     }
 
                     override fun onConfigureFailed(session: CameraCaptureSession) {
@@ -437,7 +490,7 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setVideoSource(MediaRecorder.VideoSource.SURFACE)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            setVideoEncoder(MediaRecorder.VideoEncoder.H264)
+            setVideoEncoder(MediaRecorder.VideoEncoder.HEVC)
             setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
             setVideoSize(size.width, size.height)
             setVideoFrameRate(fps)
@@ -585,6 +638,26 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
             .filter { it.upper >= targetFps / 2 }
             .minByOrNull { Math.abs(it.upper - targetFps) }
             ?: Range(targetFps, targetFps)
+    }
+
+    /**
+     * Finds the best AE FPS range the device actually supports for a standard CaptureSession.
+     * Prefers fixed ranges (min == max) at or below [targetFps], picking the highest.
+     * This prevents requesting Range(120,120) on a device that maxes out at 30fps.
+     */
+    private fun findBestStandardFpsRange(targetFps: Int): Range<Int> {
+        return try {
+            val ranges = cameraManager.getCameraCharacteristics(cameraId)
+                .get(CameraCharacteristics.CONTROL_AE_AVAILABLE_TARGET_FPS_RANGES)
+                ?: return Range(30, 30)
+            // Fixed-rate range at or below target — gives the smoothest recording
+            val fixed = ranges.filter { it.lower == it.upper && it.upper <= targetFps }
+            if (fixed.isNotEmpty()) return fixed.maxByOrNull { it.upper }!!
+            // Fallback: variable range with highest upper bound
+            ranges.maxByOrNull { it.upper } ?: Range(30, 30)
+        } catch (e: Exception) {
+            Range(30, 30)
+        }
     }
 
     private fun findBestSize(target: Size, fpsRange: Range<Int>): Size {
