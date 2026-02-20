@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun CameraScreen(
+    innerPadding: PaddingValues,
     viewModel: CameraViewModel,
     onPlaybackClick: (videoPath: String?, metaPath: String?) -> Unit
 ) {
@@ -42,6 +43,7 @@ fun CameraScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF0D0D0F))
+            .padding(innerPadding)
     ) {
         // TOP HALF: No Live Preview Area
         Box(

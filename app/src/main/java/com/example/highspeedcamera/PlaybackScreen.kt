@@ -22,6 +22,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 
 @Composable
 fun PlaybackScreen(
+    innerPadding: PaddingValues,
     videoPath: String?,
     metaPath: String?,
     viewModel: PlaybackViewModel,
@@ -46,6 +47,7 @@ fun PlaybackScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF0D0D0F))
+            .padding(innerPadding)
     ) {
         // Top Bar
         Row(

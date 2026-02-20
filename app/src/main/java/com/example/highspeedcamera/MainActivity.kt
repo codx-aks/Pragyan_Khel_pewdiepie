@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -49,6 +51,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         
         if (allPermissionsGranted()) {
             cameraViewModel.initializeCamera()
@@ -89,42 +92,48 @@ fun HighSpeedCameraApp(
 ) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "camera") {
-        composable("camera") {
-            CameraScreen(
-                viewModel = cameraViewModel,
-                onPlaybackClick = { videoPath, metaPath ->
-                    if (videoPath != null) {
-                        // URL encode paths since they contain slashes which confuse Navigation routes
-                        val encVideo = URLEncoder.encode(videoPath, "UTF-8")
-                        val encMeta = if (metaPath != null) URLEncoder.encode(metaPath, "UTF-8") else "null"
-                        navController.navigate("playback/$encVideo/$encMeta")
+    Scaffold { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = "camera",
+        ) {
+            composable("camera") {
+                CameraScreen(
+                    innerPadding = innerPadding,
+                    viewModel = cameraViewModel,
+                    onPlaybackClick = { videoPath, metaPath ->
+                        if (videoPath != null) {
+                            val encVideo = URLEncoder.encode(videoPath, "UTF-8")
+                            val encMeta = if (metaPath != null) URLEncoder.encode(metaPath, "UTF-8") else "null"
+                            navController.navigate("playback/$encVideo/$encMeta")
+                        }
                     }
-                }
-            )
-        }
+                )
+            }
 
-        composable(
-            route = "playback/{videoPath}/{metaPath}",
-            arguments = listOf(
-                navArgument("videoPath") { type = NavType.StringType },
-                navArgument("metaPath") { type = NavType.StringType }
-            )
-        ) { backStackEntry ->
-            val encVideo = backStackEntry.arguments?.getString("videoPath") ?: ""
-            val encMeta = backStackEntry.arguments?.getString("metaPath") ?: "null"
-            
-            val videoPath = URLDecoder.decode(encVideo, "UTF-8")
-            val metaPath = if (encMeta != "null") URLDecoder.decode(encMeta, "UTF-8") else null
+            composable(
+                route = "playback/{videoPath}/{metaPath}",
+                arguments = listOf(
+                    navArgument("videoPath") { type = NavType.StringType },
+                    navArgument("metaPath") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val encVideo = backStackEntry.arguments?.getString("videoPath") ?: ""
+                val encMeta = backStackEntry.arguments?.getString("metaPath") ?: "null"
+                
+                val videoPath = URLDecoder.decode(encVideo, "UTF-8")
+                val metaPath = if (encMeta != "null") URLDecoder.decode(encMeta, "UTF-8") else null
 
-            PlaybackScreen(
-                videoPath = videoPath,
-                metaPath = metaPath,
-                viewModel = playbackViewModel,
-                onBackClick = {
-                    navController.popBackStack()
-                }
-            )
+                PlaybackScreen(
+                    innerPadding = innerPadding,
+                    videoPath = videoPath,
+                    metaPath = metaPath,
+                    viewModel = playbackViewModel,
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
+                )
+            }
         }
     }
 }
