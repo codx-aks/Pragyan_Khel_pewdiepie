@@ -1,6 +1,7 @@
 package com.example.highspeedcamera
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.highspeedcamera.ui.theme.HighSpeedCameraTheme
@@ -102,6 +104,8 @@ fun HighSpeedCameraNavHost(
 ) {
     val navController = rememberNavController()
 
+    val context = LocalContext.current
+    
     NavHost(
         navController = navController,
         startDestination = "splash",
@@ -109,9 +113,26 @@ fun HighSpeedCameraNavHost(
         composable("splash") {
             CricketAnimationScreen(
                 onFinished = {
-                    navController.navigate("camera") {
+                    navController.navigate("mainMenu") {
                         popUpTo("splash") { inclusive = true }
                     }
+                }
+            )
+        }
+        
+        composable("mainMenu") {
+            MainMenuScreen(
+                onCameraClick = {
+                    navController.navigate("camera")
+                },
+                onDropMergeClick = {
+                    // Placeholder for future functionality
+                    Toast.makeText(context, "Drop/Merge - Coming Soon!", Toast.LENGTH_SHORT).show()
+                },
+                onFocusTrackClick = {
+                    // Open WebView Activity
+                    val intent = Intent(context, WebViewActivity::class.java)
+                    context.startActivity(intent)
                 }
             )
         }

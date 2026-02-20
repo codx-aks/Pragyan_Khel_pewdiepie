@@ -13,6 +13,9 @@
     <!-- Needed for reading metadata files on API 33+ -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"
         android:minSdkVersion="33" />
+    <!-- Internet permission for WebView -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- High-speed video feature declaration -->
     <uses-feature
@@ -43,7 +46,12 @@
             </intent-filter>
         </activity>
 
-
+        <activity
+            android:name=".WebViewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="Focus/Track"
+            android:theme="@style/Theme.HighSpeedCamera" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
