@@ -65,8 +65,14 @@ fun CameraScreen(
 
     val availableFpsOptions by viewModel.availableFpsOptions.collectAsState()
     val availableSizeOptions by viewModel.availableSizeOptions.collectAsState()
+    val allFpsOptions by viewModel.allFpsOptions.collectAsState()
+    val allSizeOptions by viewModel.allSizeOptions.collectAsState()
+    val supportedFpsSet by viewModel.supportedFpsSet.collectAsState()
+    val supportedSizeSet by viewModel.supportedSizeSet.collectAsState()
     val isoRange by viewModel.isoRange.collectAsState()
     val shutterRangeNs by viewModel.shutterRangeNs.collectAsState()
+    val selectedNoiseReductionMode by viewModel.selectedNoiseReductionMode.collectAsState()
+    val availableNoiseReductionModes by viewModel.availableNoiseReductionModes.collectAsState()
     val isUnsupportedSnackbarVisible = remember { mutableStateOf(false) }
 
 //    Scaffold(
@@ -211,26 +217,28 @@ fun CameraScreen(
                 Row(modifier = Modifier.fillMaxWidth()) {
                     DropdownMenuBox(
                         label = "FRAME RATE",
-                        items = availableFpsOptions.map { "$it FPS" },
+                        items = allFpsOptions.map { "$it FPS" },
                         selectedItem = "$selectedFps FPS",
                         onItemSelected = { idx -> 
-                            if (idx in availableFpsOptions.indices) {
-                                viewModel.setFps(availableFpsOptions[idx]) 
+                            if (idx in allFpsOptions.indices) {
+                                viewModel.setFps(allFpsOptions[idx]) 
                             }
                         },
-                        modifier = Modifier.weight(1f).padding(end = 4.dp)
+                        modifier = Modifier.weight(1f).padding(end = 4.dp),
+                        enabledItems = allFpsOptions.map { it in supportedFpsSet }
                     )
 
                     DropdownMenuBox(
                         label = "RESOLUTION",
-                        items = availableSizeOptions.map { "${it.width} × ${it.height}" },
+                        items = allSizeOptions.map { "${it.width} × ${it.height}" },
                         selectedItem = "${selectedSize.width} × ${selectedSize.height}",
                         onItemSelected = { idx -> 
-                            if (idx in availableSizeOptions.indices) {
-                                viewModel.setSize(availableSizeOptions[idx])
+                            if (idx in allSizeOptions.indices) {
+                                viewModel.setSize(allSizeOptions[idx])
                             }
                         },
-                        modifier = Modifier.weight(1f).padding(start = 4.dp)
+                        modifier = Modifier.weight(1f).padding(start = 4.dp),
+                        enabledItems = allSizeOptions.map { it in supportedSizeSet }
                     )
                 }
 
@@ -259,6 +267,11 @@ fun CameraScreen(
                             modifier = Modifier.padding(16.dp)
                         ) {
                             Text("ISO: $selectedIso", color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                            Text(
+                                text = "Lower ISO = less grain",
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                                style = MaterialTheme.typography.labelSmall
+                            )
                             Slider(
                                 value = selectedIso.toFloat(),
                                 onValueChange = { viewModel.setIso(it.toInt()) },
@@ -270,20 +283,44 @@ fun CameraScreen(
 
                             val denominator = (1_000_000_000.0 / selectedShutterNs).toInt()
                             Text("Shutter: 1/$denominator s", color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                            Text(
+                                text = "Slower shutter = more light = less grain",
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                                style = MaterialTheme.typography.labelSmall
+                            )
+
+                            // Cap shutter upper bound to the frame interval for the selected FPS
+                            val maxShutterForFps = 1_000_000_000L / selectedFps
+                            val effectiveShutterUpper = maxShutterForFps.coerceAtMost(shutterRangeNs.upper)
+                            val effectiveShutterLower = shutterRangeNs.lower.coerceAtMost(effectiveShutterUpper)
 
                             Slider(
-                                value = selectedShutterNs.toFloat(),
+                                value = selectedShutterNs.toFloat().coerceIn(effectiveShutterLower.toFloat(), effectiveShutterUpper.toFloat()),
                                 onValueChange = { viewModel.setShutterNs(it.toLong()) },
-                                valueRange = shutterRangeNs.lower.toFloat()..shutterRangeNs.upper.toFloat()
+                                valueRange = effectiveShutterLower.toFloat()..effectiveShutterUpper.toFloat()
                             )
-                            val maxDenominator = (1_000_000_000.0 / shutterRangeNs.lower.coerceAtLeast(1)).toInt()
-                            val minDenominator = (1_000_000_000.0 / shutterRangeNs.upper.coerceAtLeast(1)).toInt()
-                            
+                            val maxDenominator = (1_000_000_000.0 / effectiveShutterLower.coerceAtLeast(1)).toInt()
+                            val minDenominator = (1_000_000_000.0 / effectiveShutterUpper.coerceAtLeast(1)).toInt()
+
                             Text(
                                 "1/${maxDenominator}s ◀──────────────▶ 1/${minDenominator}s",
                                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
                                 style = MaterialTheme.typography.labelSmall,
                                 textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            DropdownMenuBox(
+                                label = "NOISE REDUCTION",
+                                items = availableNoiseReductionModes.map { noiseReductionModeName(it) },
+                                selectedItem = noiseReductionModeName(selectedNoiseReductionMode),
+                                onItemSelected = { idx ->
+                                    if (idx in availableNoiseReductionModes.indices) {
+                                        viewModel.setNoiseReductionMode(availableNoiseReductionModes[idx])
+                                    }
+                                },
                                 modifier = Modifier.fillMaxWidth()
                             )
                         }
@@ -292,7 +329,7 @@ fun CameraScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "⚠ Manual ISO/shutter may be limited in high-speed mode on some devices.",
+                    text = "💡 Grainy video? Use lowest ISO and slowest shutter speed possible. Good lighting helps significantly at high FPS.",
                     color = MaterialTheme.colorScheme.tertiary,
                     style = MaterialTheme.typography.labelSmall
                 )
@@ -309,7 +346,8 @@ fun DropdownMenuBox(
     items: List<String>,
     selectedItem: String,
     onItemSelected: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enabledItems: List<Boolean> = items.map { true }
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -341,15 +379,36 @@ fun DropdownMenuBox(
                 modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
             ) {
                 items.forEachIndexed { index, selectionOption ->
+                    val isEnabled = enabledItems.getOrElse(index) { true }
                     DropdownMenuItem(
-                        text = { Text(text = selectionOption, color = MaterialTheme.colorScheme.onSurfaceVariant) },
+                        text = {
+                            Text(
+                                text = selectionOption,
+                                color = if (isEnabled)
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                else
+                                    MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
+                            )
+                        },
                         onClick = {
-                            onItemSelected(index)
-                            expanded = false
-                        }
+                            if (isEnabled) {
+                                onItemSelected(index)
+                                expanded = false
+                            }
+                        },
+                        enabled = isEnabled
                     )
                 }
             }
         }
     }
+}
+
+private fun noiseReductionModeName(mode: Int): String = when (mode) {
+    android.hardware.camera2.CaptureRequest.NOISE_REDUCTION_MODE_OFF -> "Off"
+    android.hardware.camera2.CaptureRequest.NOISE_REDUCTION_MODE_FAST -> "Fast"
+    android.hardware.camera2.CaptureRequest.NOISE_REDUCTION_MODE_HIGH_QUALITY -> "High Quality"
+    android.hardware.camera2.CaptureRequest.NOISE_REDUCTION_MODE_MINIMAL -> "Minimal"
+    android.hardware.camera2.CaptureRequest.NOISE_REDUCTION_MODE_ZERO_SHUTTER_LAG -> "Zero Shutter Lag"
+    else -> "Mode $mode"
 }

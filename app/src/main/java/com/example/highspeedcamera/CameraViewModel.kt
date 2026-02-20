@@ -57,10 +57,10 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     private val _selectedSize = MutableStateFlow(Size(1920, 1080))
     val selectedSize = _selectedSize.asStateFlow()
 
-    private val _selectedIso = MutableStateFlow(800)
+    private val _selectedIso = MutableStateFlow(100)
     val selectedIso = _selectedIso.asStateFlow()
 
-    private val _selectedShutterNs = MutableStateFlow(4_166_667L)
+    private val _selectedShutterNs = MutableStateFlow(16_666_667L) // ~1/60s – reasonable default to avoid grain
     val selectedShutterNs = _selectedShutterNs.asStateFlow()
 
     private val _isManualExposure = MutableStateFlow(false)
@@ -100,14 +100,37 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     private val _availableFpsOptions = MutableStateFlow<List<Int>>(emptyList())
     val availableFpsOptions = _availableFpsOptions.asStateFlow()
 
+    private val _supportedFpsSet = MutableStateFlow<Set<Int>>(emptySet())
+    val supportedFpsSet = _supportedFpsSet.asStateFlow()
+
+    private val _allFpsOptions = MutableStateFlow<List<Int>>(listOf(30, 60, 120, 240))
+    val allFpsOptions = _allFpsOptions.asStateFlow()
+
     private val _availableSizeOptions = MutableStateFlow<List<Size>>(emptyList())
     val availableSizeOptions = _availableSizeOptions.asStateFlow()
+
+    private val _supportedSizeSet = MutableStateFlow<Set<Size>>(emptySet())
+    val supportedSizeSet = _supportedSizeSet.asStateFlow()
+
+    private val _allSizeOptions = MutableStateFlow<List<Size>>(emptyList())
+    val allSizeOptions = _allSizeOptions.asStateFlow()
 
     private val _isoRange = MutableStateFlow<Range<Int>>(Range(100, 6400))
     val isoRange = _isoRange.asStateFlow()
 
     private val _shutterRangeNs = MutableStateFlow<Range<Long>>(Range(250_000L, 33_333_333L))
     val shutterRangeNs = _shutterRangeNs.asStateFlow()
+
+    // Noise reduction
+    private val _selectedNoiseReductionMode = MutableStateFlow(CaptureRequest.NOISE_REDUCTION_MODE_HIGH_QUALITY)
+    val selectedNoiseReductionMode = _selectedNoiseReductionMode.asStateFlow()
+
+    private val _availableNoiseReductionModes = MutableStateFlow<List<Int>>(listOf(
+        CaptureRequest.NOISE_REDUCTION_MODE_OFF,
+        CaptureRequest.NOISE_REDUCTION_MODE_FAST,
+        CaptureRequest.NOISE_REDUCTION_MODE_HIGH_QUALITY
+    ))
+    val availableNoiseReductionModes = _availableNoiseReductionModes.asStateFlow()
 
     // endregion
 
@@ -189,10 +212,39 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
             }
         }
 
-        if (_selectedFps.value !in _availableFpsOptions.value) {
+        // Query available noise reduction modes from the device
+        characteristics.get(CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES)?.let { modes ->
+            _availableNoiseReductionModes.value = modes.toList()
+            if (_selectedNoiseReductionMode.value !in modes) {
+                _selectedNoiseReductionMode.value = modes.lastOrNull() ?: CaptureRequest.NOISE_REDUCTION_MODE_OFF
+            }
+        }
+
+        // Build the supported sets from what the device actually supports
+        _supportedFpsSet.value = _availableFpsOptions.value.toSet()
+        _supportedSizeSet.value = _availableSizeOptions.value.toSet()
+
+        // Build "all" FPS list: standard options + any device-specific ones, sorted descending
+        val standardFps = listOf(30, 60, 120, 240)
+        val allFps = (standardFps + _availableFpsOptions.value).distinct().sortedDescending()
+        _allFpsOptions.value = allFps
+
+        // Build "all" size list: common resolutions + device-specific ones, sorted by pixel count descending
+        val commonSizes = listOf(
+            Size(3840, 2160),
+            Size(1920, 1080),
+            Size(1280, 720),
+            Size(640, 480)
+        )
+        val allSizes = (commonSizes + _availableSizeOptions.value)
+            .distinctBy { "${it.width}x${it.height}" }
+            .sortedByDescending { it.width * it.height }
+        _allSizeOptions.value = allSizes
+
+        if (_selectedFps.value !in _supportedFpsSet.value) {
             _selectedFps.value = _availableFpsOptions.value.firstOrNull() ?: 30
         }
-        if (_selectedSize.value !in _availableSizeOptions.value) {
+        if (_selectedSize.value !in _supportedSizeSet.value) {
             _selectedSize.value = _availableSizeOptions.value.firstOrNull() ?: Size(1920, 1080)
         }
 
@@ -313,6 +365,10 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
                     set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON)
                 }
                 set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO)
+
+                // Reduce grain: enable noise reduction and edge enhancement
+                set(CaptureRequest.NOISE_REDUCTION_MODE, _selectedNoiseReductionMode.value)
+                set(CaptureRequest.EDGE_MODE, CaptureRequest.EDGE_MODE_HIGH_QUALITY)
             }
 
             val requests = session.createHighSpeedRequestList(requestBuilder.build())
@@ -346,6 +402,9 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
                                 set(CaptureRequest.SENSOR_SENSITIVITY, _selectedIso.value)
                                 set(CaptureRequest.SENSOR_EXPOSURE_TIME, _selectedShutterNs.value)
                             }
+                            // Reduce grain: enable noise reduction and edge enhancement
+                            set(CaptureRequest.NOISE_REDUCTION_MODE, _selectedNoiseReductionMode.value)
+                            set(CaptureRequest.EDGE_MODE, CaptureRequest.EDGE_MODE_HIGH_QUALITY)
                         }
                         session.setRepeatingRequest(requestBuilder.build(), null, backgroundHandler)
                         mediaRecorder?.start()
@@ -604,12 +663,18 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     // Setters
     fun setFps(fps: Int) {
         _selectedFps.value = fps
-        _selectedShutterNs.value = 1_000_000_000L / fps
+        // Shutter can't be longer than the frame interval (1/fps).
+        // Clamp only if current value exceeds the max allowed for this FPS.
+        val maxShutterForFps = 1_000_000_000L / fps
+        if (_selectedShutterNs.value > maxShutterForFps) {
+            _selectedShutterNs.value = maxShutterForFps
+        }
     }
     fun setSize(size: Size) { _selectedSize.value = size }
     fun setManualExposure(manual: Boolean) { _isManualExposure.value = manual }
     fun setIso(iso: Int) { _selectedIso.value = iso }
     fun setShutterNs(ns: Long) { _selectedShutterNs.value = ns }
+    fun setNoiseReductionMode(mode: Int) { _selectedNoiseReductionMode.value = mode }
 
     override fun onCleared() {
         if (_isRecording.value) stopRecording()
