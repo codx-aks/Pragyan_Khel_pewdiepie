@@ -1,4 +1,4 @@
-# Khel x PewDiePie Mu
+# Khel x PewDiePie
 ## Multi-Modal High-Speed Cricket Analysis System
 
 A hybrid Android and web-based system implementing three core problem statements for high-speed cricket video analysis: 240 FPS camera recording with manual controls, frame drop/merge detection using temporal analysis, and AI-powered dynamic subject tracking with background blur.
