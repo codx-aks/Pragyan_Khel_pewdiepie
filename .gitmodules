@@ -1,0 +1,4 @@
+[submodule "focusntrack"]
+	path = focusntrack
+	url = https://github.com/AkhshayMahesh/focusntrack
+	branch = main
