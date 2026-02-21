@@ -107,7 +107,7 @@ fun DropMergeHomeScreen(
 
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "TEMPORAL DETECTOR",
+                                text = "FRAME ANALYZER",
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = DmWhite,
@@ -258,56 +258,10 @@ fun DropMergeHomeScreen(
                                 fontFamily = FontFamily.Monospace,
                             )
                         }
-                        TextButton(
-                            onClick = { showAboutDialog = true },
-                            colors = ButtonDefaults.textButtonColors(contentColor = DmGrey),
-                        ) {
-                            Text(
-                                text = "ALGORITHM DETAILS",
-                                fontSize = 11.sp,
-                                letterSpacing = 1.sp,
-                                fontFamily = FontFamily.Monospace,
-                            )
-                        }
                     }
                 }
             }
         }
-    }
-
-    if (showAboutDialog) {
-        AlertDialog(
-            onDismissRequest = { showAboutDialog = false },
-            title = {
-                Text(
-                    text = "HYBRID ALGORITHM",
-                    fontWeight = FontWeight.Bold,
-                    color = DmYellow,
-                    fontFamily = FontFamily.Monospace,
-                    letterSpacing = 2.sp,
-                )
-            },
-            text = {
-                Text(
-                    text = "Research-backed temporal error detection:\n\n" +
-                            "1. DUPLICATE DETECTION\n   Δpx < 1.5 → masked frame drop\n\n" +
-                            "2. MOTION SPIKE (Optical Flow)\n   Farneback flow > μ+2.5σ AND SSIM < μ−2σ\n\n" +
-                            "3. SSIM TRIPLET SYNTHESIS\n   SSIM(Ft, blend(Ft-1,Ft+1)) > 0.92 → merge\n\n" +
-                            "4. EDGE COUNT SPIKE (Canny)\n   Edge pixels > μ+2σ + blend > 0.80 → merge\n\n" +
-                            "Rolling 30-frame adaptive window.",
-                    fontSize = 12.sp,
-                    color = DmGrey,
-                    fontFamily = FontFamily.Monospace,
-                )
-            },
-            confirmButton = {
-                TextButton(onClick = { showAboutDialog = false }) {
-                    Text("OK", color = DmYellow, fontFamily = FontFamily.Monospace)
-                }
-            },
-            containerColor = Color(0xFF1A1A1A),
-            titleContentColor = DmYellow,
-        )
     }
 }
 

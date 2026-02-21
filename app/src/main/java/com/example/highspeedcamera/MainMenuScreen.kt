@@ -127,7 +127,7 @@ fun MainMenuScreen(
                     
                     // Pewdiepie Team box
                     Surface(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier,
                         shape = RoundedCornerShape(12.dp),
                         color = Color(0xFFFF6B35).copy(alpha = 0.95f),
                         shadowElevation = 8.dp
@@ -218,7 +218,7 @@ fun MainMenuScreen(
                     
                     // Button 2: Drop/Merge
                     ScoreboardButton(
-                        mainText = "DROP-MERGE",
+                        mainText = "DROP - MERGE",
                         subText = "beyond errors",
                         number = "02",
                         onClick = onDropMergeClick,
