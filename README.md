@@ -4,7 +4,7 @@
 A hybrid Android and web-based system implementing three core problem statements for high-speed cricket video analysis: 240 FPS camera recording with manual controls, frame drop/merge detection using temporal analysis, and AI-powered dynamic subject tracking with background blur.
 
 <p align="center">
-  <img src="readme_img.png" width="800"/>
+  <img src="media/readme_img.png" width="800"/>
 </p>
 
 
@@ -16,6 +16,11 @@ The system is split into two independent execution environments to maximize perf
 - **Problem Statement 1:** 240 FPS camera recording with manual exposure controls
 - **Problem Statement 2:** Frame drop and merge detection via temporal consistency analysis
 - **Problem Statement 3 (Orchestration):** User interface and redirection to web module
+
+<figure>
+    <img src="media/main_menu.png" alt="Main menu of the app" width="800"/>
+    <figcaption>Main menu of the app</figcaption>
+</figure>
 
 ### Web Module (Git Submodule)
 - **Problem Statement 3 (Execution):** MediaPipe object detection, predictive tracking algorithm, and WebGPU-accelerated background blur rendering
@@ -35,9 +40,23 @@ The Android app acts as a launcher, redirecting users to the hosted web applicat
 **On-Device Processing Clarification:**  
 All processing for Problem Statement 3 occurs **locally in the browser**. The web module downloads the EfficientDet model (4.1 MB) and processes video frames entirely client-side using WebAssembly. No frames are transmitted to external servers. The Vercel hosting serves only static HTML/JS/WASM assets.
 
----
 
 ## Problem Statement 1: 240 FPS Pro Camera Application
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="media/camera_screen.png" alt="Camera Screen" width="100%" />
+      <br />
+      <em>Camera Screen</em>
+    </td>
+    <td align="center">
+      <img src="media/media_view.png" alt="Media View" width="100%" />
+      <br />
+      <em>Media View</em>
+    </td>
+  </tr>
+</table>
 
 ### Requirement
 Capture high-speed cricket footage at 240 FPS with manual control over ISO, shutter speed, and frame rate for slow-motion analysis.
@@ -96,9 +115,23 @@ At 240 FPS, frame-to-frame pixel difference drops significantly even with motion
 **Graceful Degradation:**  
 If the device doesn't support constrained high-speed, the implementation falls back to standard `CaptureSession` with the highest available FPS range advertised by the device.
 
----
 
 ## Problem Statement 2: Frame Drop and Merge Detection
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="media/ps2_upload_screen.png" alt="Upload Screen" width="100%" />
+      <br />
+      <em>Upload Screen</em>
+    </td>
+    <td align="center">
+      <img src="media/ps2_analysis_screen.png" alt="Analysis Screen" width="100%" />
+      <br />
+      <em>Analysis Screen</em>
+    </td>
+  </tr>
+</table>
 
 ### Requirement
 Analyze recorded high-speed cricket footage to detect:
@@ -201,9 +234,13 @@ Pure pixel difference fails when encoders interpolate frames to maintain constan
 - Max 300 frames sampled for long videos
 - OpenCV operations run on CPU (Android NDK)
 
----
 
 ## Problem Statement 3: AI Smart Auto Focus & Dynamic Subject Tracking
+
+<figure>
+    <img src="media/smart_auto_focus.png" alt="Subject Tracking with Auto Focus" width="800"/>
+    <figcaption>Subject Tracking with Auto Focus</figcaption>
+</figure>
 
 ### A. Android App Side
 
@@ -303,8 +340,6 @@ User clicks on a detected object to initiate tracking. The system finds the dete
 
 If the tracked subject leaves the frame or is occluded for more than 15 frames, the tracker resets velocity and scans all detections for the highest color similarity to the last known histogram. If similarity exceeds 0.6, it auto-switches to that detection.
 
----
-
 ## Technical Stack
 
 ### Android Application
@@ -321,8 +356,6 @@ If the tracked subject leaves the frame or is occluded for more than 15 frames, 
 - **Compute:** WebAssembly (TensorFlow Lite)
 - **Async Processing:** Web Workers
 - **Hosting:** Vercel (static CDN)
-
----
 
 ## Setup Instructions
 
@@ -378,8 +411,6 @@ python -m http.server 8000
 
 The web module uses ES modules and Web Workers, which require a proper HTTP server (cannot be opened directly as `file://`).
 
----
-
 ## How to Clone
 
 This repository uses a Git submodule for the web module.
@@ -408,8 +439,6 @@ cd ..
 git add focusntrack
 git commit -m "Update focusntrack submodule"
 ```
-
----
 
 ## Project Structure
 
