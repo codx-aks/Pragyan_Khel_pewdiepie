@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.drawscope.withTransform
 import kotlinx.coroutines.delay
 import kotlin.math.*
 
-// ── Palette ───────────────────────────────────────────────────────────────────
+//  Palette
 private val NightSky     = Color(0xFF060B18)
 private val StandDark    = Color(0xFF0D1B2A)
 private val StandMid     = Color(0xFF162233)
@@ -32,7 +32,6 @@ private val FloodWhite   = Color(0xFFFFFDE7)
 private val FloodGlow    = Color(0xFFFFFF99)
 private val GroundShadow = Color(0xFF113A18)
 
-// ─────────────────────────────────────────────────────────────────────────────
 
 @Composable
 fun CricketAnimationScreen(onFinished: () -> Unit) {
@@ -56,14 +55,12 @@ fun CricketMatchAnimation(progress: Float, modifier: Modifier = Modifier) {
         val W = size.width
         val H = size.height
 
-        // ── Ground is a fixed fraction of height ──────────────────────────────
         // Everything is measured from groundY so nothing floats or clips.
         val groundY  = H * 0.72f
 
-        // ── Pitch geometry defined once, shared by pitch + stump + ball ───────
         // Pitch sits FLUSH on the ground: top edge at groundY - pitchH, bottom = groundY
-        val pitchH   = H * 0.028f          // visible raised strip height
-        val pitchTop = groundY - pitchH    // top of pitch rectangle
+        val pitchH   = H * 0.028f
+        val pitchTop = groundY - pitchH
 
         // Stump roots are exactly at groundY
         val stumpsX  = W * 0.76f
@@ -89,9 +86,7 @@ fun CricketMatchAnimation(progress: Float, modifier: Modifier = Modifier) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Sky + stars
-// ─────────────────────────────────────────────────────────────────────────────
 private fun DrawScope.drawNightSky(W: Float, H: Float) {
     drawRect(
         brush = Brush.verticalGradient(
@@ -115,9 +110,7 @@ private fun DrawScope.drawNightSky(W: Float, H: Float) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Stadium stands
-// ─────────────────────────────────────────────────────────────────────────────
 private fun DrawScope.drawStadiumStands(W: Float, H: Float, groundY: Float) {
     val roofH  = H * 0.36f
     val standH = groundY - roofH
@@ -176,9 +169,7 @@ private fun DrawScope.drawStadiumStands(W: Float, H: Float, groundY: Float) {
         Offset(sbX + sbW * 0.09f, sbY + sbH * 0.52f), Size(sbW * 0.38f, sbH * 0.15f), CornerRadius(sbH * 0.04f))
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Floodlight towers
-// ─────────────────────────────────────────────────────────────────────────────
 private fun DrawScope.drawFloodlightTowers(W: Float, H: Float, groundY: Float, progress: Float) {
     val towerXs  = listOf(W * 0.04f, W * 0.22f, W * 0.78f, W * 0.96f)
     val towerHs  = listOf(H * 0.60f, H * 0.53f, H * 0.53f, H * 0.60f)
@@ -240,9 +231,7 @@ private fun DrawScope.drawFloodlightTowers(W: Float, H: Float, groundY: Float, p
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Outfield
-// ─────────────────────────────────────────────────────────────────────────────
 private fun DrawScope.drawOutfield(W: Float, H: Float, groundY: Float) {
     // Full field ellipse
     drawOval(
@@ -267,9 +256,7 @@ private fun DrawScope.drawOutfield(W: Float, H: Float, groundY: Float) {
     drawLine(GroundShadow, Offset(0f, groundY), Offset(W, groundY), strokeWidth = 2.5f)
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Pitch — flush with ground, shared geometry with stumps + ball
-// ─────────────────────────────────────────────────────────────────────────────
 private fun DrawScope.drawPitch(
     W: Float, groundY: Float, pitchTop: Float, pitchH: Float,
     bowlerX: Float, stumpsX: Float
@@ -319,9 +306,7 @@ private fun DrawScope.drawPitch(
         strokeWidth = 1.5f)
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Stumps — rooted at groundY, stump height scales with H
-// ─────────────────────────────────────────────────────────────────────────────
 private fun DrawScope.drawStumps(cx: Float, groundY: Float, hitPhase: Float) {
     // Stump height a fixed fraction of screen height for consistent proportion
     val stumpH = size.height * 0.095f
@@ -369,9 +354,7 @@ private fun DrawScope.drawStumps(cx: Float, groundY: Float, hitPhase: Float) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Batsman — smaller (figH reduced from 0.160 → 0.115)
-// ─────────────────────────────────────────────────────────────────────────────
 private fun DrawScope.drawBatsman(
     cx: Float, groundY: Float,
     deliveryPhase: Float, hitPhase: Float
@@ -449,9 +432,7 @@ private fun DrawScope.drawBatsman(
         strokeWidth = u * 0.65f, cap = StrokeCap.Round)
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Bowler — smaller (figH reduced from 0.160 → 0.115), head fully attached
-// ─────────────────────────────────────────────────────────────────────────────
+// Bowler — smaller
 private fun DrawScope.drawBowler(
     cx: Float, groundY: Float,
     runupPhase: Float, deliveryPhase: Float
@@ -513,9 +494,7 @@ private fun DrawScope.drawBowler(
         strokeWidth = u * 0.52f, cap = StrokeCap.Round)
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Ball in flight
-// ─────────────────────────────────────────────────────────────────────────────
 private fun DrawScope.drawBall(
     W: Float, H: Float, groundY: Float,
     bowlerX: Float, stumpsX: Float,
@@ -589,9 +568,7 @@ private fun DrawScope.drawBall(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Impact flash
-// ─────────────────────────────────────────────────────────────────────────────
 private fun DrawScope.drawImpact(stumpsX: Float, groundY: Float, hitPhase: Float) {
     if (hitPhase <= 0f || hitPhase > 0.65f) return
     val stumpH = size.height * 0.095f
@@ -611,9 +588,7 @@ private fun DrawScope.drawImpact(stumpsX: Float, groundY: Float, hitPhase: Float
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Flying bails
-// ─────────────────────────────────────────────────────────────────────────────
 private fun DrawScope.drawFlyingBails(
     stumpsX: Float, groundY: Float, hitPhase: Float, W: Float, H: Float
 ) {

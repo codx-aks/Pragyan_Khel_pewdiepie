@@ -13,7 +13,7 @@ import java.util.ArrayDeque
 import kotlin.math.abs
 import kotlin.math.sqrt
 
-// ─── Data Models ─────────────────────────────────────────────────────────────
+// Data Models
 
 enum class FrameClass { NORMAL, FRAME_DROP, FRAME_MERGE }
 
@@ -50,7 +50,7 @@ interface AnalysisProgressCallback {
     fun onError(message: String)
 }
 
-// ─── Main Analyzer ────────────────────────────────────────────────────────────
+//  Main Analyzer
 
 class VideoAnalyzer(private val context: Context) {
 

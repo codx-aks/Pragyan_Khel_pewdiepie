@@ -26,9 +26,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// ─────────────────────────────────────────────────────────────────────────────
-//  DESIGN TOKENS  — Cricket Night Stadium
-// ─────────────────────────────────────────────────────────────────────────────
 private object S {
     val SkyTop          = Color(0xFF050D14)
     val SkyMid          = Color(0xFF0A1A2E)
@@ -54,9 +51,7 @@ private object S {
     val TextYellow      = Color(0xFFFFD600)
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  CAMERA SCREEN
-// ─────────────────────────────────────────────────────────────────────────────
 @Composable
 fun CameraScreen(
     innerPadding: PaddingValues,
@@ -111,7 +106,7 @@ fun CameraScreen(
                 .background(S.SkyTop)
         ) {
 
-            // ── STADIUM BACKGROUND PAINTING ──────────────────────────────
+            // STADIUM BACKGROUND PAINTING
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -182,16 +177,14 @@ fun CameraScreen(
                     }
             )
 
-            // ── UI CONTENT ────────────────────────────────────────────────
+            // UI CONTENT
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(scaffoldPadding)
             ) {
 
-                // ═══════════════════════════════════════════════════════
                 //  VIEWFINDER
-                // ═══════════════════════════════════════════════════════
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -292,18 +285,13 @@ fun CameraScreen(
                     }
                 }
 
-                // ═══════════════════════════════════════════════════════
                 //  MAIN MENU PANEL — bounded height with fixed bottom btns
-                // ═══════════════════════════════════════════════════════
-                // KEY CHANGE: Panel is now a Column with weight(1f) so it has
-                // a bounded height. Inside: scrollable settings + fixed buttons.
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(1f)          // ← bounded height, equal share with viewfinder
+                        .weight(1f)
                         .background(S.PanelBg)
                 ) {
-                    // Top accent line (always visible, not scrollable)
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -321,11 +309,10 @@ fun CameraScreen(
                             )
                     )
 
-                    // ── SCROLLABLE SETTINGS AREA ─────────────────────────
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(1f)      // ← takes remaining space, enables scroll
+                            .weight(1f)
                             .verticalScroll(rememberScrollState())
                             .padding(horizontal = 16.dp)
                             .padding(top = 14.dp, bottom = 10.dp),
@@ -526,16 +513,13 @@ fun CameraScreen(
                         }
 
                         Spacer(Modifier.height(6.dp))
-                    } // end scrollable Column
+                    }
 
-                    // ── FIXED BOTTOM — RECORD / REPLAY ───────────────────
-                    // KEY CHANGE: These are OUTSIDE the scroll, always visible.
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(S.PanelBg)  // same panel bg so it blends
+                            .background(S.PanelBg)
                     ) {
-                        // Subtle separator line above buttons
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -609,9 +593,7 @@ fun CameraScreen(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  COMPONENT — Viewfinder corner marks
-// ─────────────────────────────────────────────────────────────────────────────
 @Composable
 private fun ViewfinderCornerMarks(color: Color) {
     val armDp = 20.dp
@@ -636,9 +618,7 @@ private fun ViewfinderCornerMarks(color: Color) {
     )
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  COMPONENT — LIVE scoreboard badge
-// ─────────────────────────────────────────────────────────────────────────────
 @Composable
 private fun LiveScoreboardBadge(
     isRecording: Boolean,
@@ -693,9 +673,7 @@ private fun LiveScoreboardBadge(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  COMPONENT — Scoreboard menu item
-// ─────────────────────────────────────────────────────────────────────────────
 @Composable
 private fun ScoreboardMenuItem(number: String, title: String, subtitle: String) {
     Box(
@@ -741,9 +719,7 @@ private fun ScoreboardMenuItem(number: String, title: String, subtitle: String) 
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  COMPONENT — Scoreboard menu item with dropdown
-// ─────────────────────────────────────────────────────────────────────────────
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ScoreboardMenuDropdown(
@@ -851,9 +827,7 @@ private fun ScoreboardMenuDropdown(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  COMPONENT — Cricket ball record button with pulse ring
-// ─────────────────────────────────────────────────────────────────────────────
 @Composable
 private fun CricketBallRecordButton(
     isRecording: Boolean,
@@ -907,9 +881,7 @@ private fun CricketBallRecordButton(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  COMPONENT — Stat readout row
-// ─────────────────────────────────────────────────────────────────────────────
 @Composable
 private fun StatReadout(label: String, value: String, hint: String) {
     Row(
@@ -943,9 +915,7 @@ private fun StatReadout(label: String, value: String, hint: String) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  COMPONENT — Simple LED dropdown
-// ─────────────────────────────────────────────────────────────────────────────
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LedDropdown(
@@ -1015,9 +985,7 @@ fun DropdownMenuBox(
     enabledItems: List<Boolean> = items.map { true }
 ) = LedDropdown(items, selectedItem, onItemSelected, modifier, enabledItems)
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  UTILITY — floodlight pole drawing
-// ─────────────────────────────────────────────────────────────────────────────
 private fun drawFloodlightPole(
     scope: androidx.compose.ui.graphics.drawscope.DrawScope,
     topCenter: Offset,

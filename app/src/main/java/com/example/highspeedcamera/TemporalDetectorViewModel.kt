@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-// ─── UI State ─────────────────────────────────────────────────────────────────
+// UI State
 
 sealed class DropMergeUiState {
     data object Home : DropMergeUiState()
@@ -30,7 +30,7 @@ sealed class DropMergeUiState {
     data class Error(val message: String) : DropMergeUiState()
 }
 
-// ─── ViewModel ────────────────────────────────────────────────────────────────
+// ViewModel
 
 class TemporalDetectorViewModel : ViewModel() {
 

@@ -384,9 +384,7 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
                 addTarget(surface)
                 set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fpsRange)
 
-                // Only apply AE_MODE_OFF on devices that declare MANUAL_SENSOR capability.
-                // On LIMITED/LEGACY devices, AE_MODE_OFF without proper HAL support breaks
-                // the colour pipeline and produces severe chroma noise.
+
                 if (_isManualExposure.value && isManualSensorCapable) {
                     set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF)
                     set(CaptureRequest.SENSOR_SENSITIVITY, _selectedIso.value)
@@ -397,8 +395,6 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
                     set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON)
                 }
 
-                // Keep AWB running even when AE is off. Many HALs silently disable AWB
-                // when AE_MODE_OFF, causing severe chroma noise / colour cast.
                 set(CaptureRequest.CONTROL_AWB_MODE, CaptureRequest.CONTROL_AWB_MODE_AUTO)
                 set(CaptureRequest.CONTROL_AWB_LOCK, false)
                 set(CaptureRequest.COLOR_CORRECTION_ABERRATION_MODE,
@@ -424,8 +420,7 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
 
     private fun startStandardRecording(camera: CameraDevice, size: Size, fps: Int) {
         try {
-            // Ask the device what it actually supports — don't blindly request Range(120,120)
-            // on a device that can only do 30fps; the HAL silently ignores unsupported ranges.
+
             val bestFpsRange = findBestStandardFpsRange(fps)
             val actualFps = bestFpsRange.upper
 
@@ -438,7 +433,6 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
                     override fun onConfigured(session: CameraCaptureSession) {
                         val requestBuilder = camera.createCaptureRequest(CameraDevice.TEMPLATE_RECORD).apply {
                             addTarget(recorderSurface)
-                            // Explicitly keep 3A in AUTO mode so AWB/AF pipelines stay active
                             set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO)
                             set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, bestFpsRange)
                             if (_isManualExposure.value && isManualSensorCapable) {
@@ -450,7 +444,6 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
                             } else {
                                 set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON)
                             }
-                            // Keep AWB alive even when AE is off to prevent chroma noise
                             set(CaptureRequest.CONTROL_AWB_MODE, CaptureRequest.CONTROL_AWB_MODE_AUTO)
                             set(CaptureRequest.CONTROL_AWB_LOCK, false)
                             set(CaptureRequest.COLOR_CORRECTION_ABERRATION_MODE,
@@ -462,7 +455,6 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
                         mediaRecorder?.start()
                         recordingStartTime = System.currentTimeMillis()
                         _isRecording.value = true
-                        // Report the FPS the device actually delivers, not what was requested
                         onRecordingStarted(actualFps, size)
                     }
 
@@ -498,7 +490,6 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
             setAudioEncodingBitRate(128_000)
             setAudioSamplingRate(44100)
 
-            // Use file descriptor for MediaStore (API 29+), otherwise use file path
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && lastVideoFd != null) {
                 setOutputFile(lastVideoFd)
             } else {
